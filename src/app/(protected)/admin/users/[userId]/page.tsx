@@ -1,0 +1,1 @@
+export default function AdminUserDetailPage() { return <div>사용자 상세</div>; }

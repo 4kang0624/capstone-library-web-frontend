@@ -1,0 +1,1 @@
+export default function LibraryCopyPage() { return <div>도서 사본</div>; }
