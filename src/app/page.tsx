@@ -29,7 +29,7 @@ function FeatureCard({
 function StepCard({ step, title, description }: { step: string; title: string; description: string }) {
   return (
     <div className="text-center p-6">
-      <div className="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg shadow-primary/30">
+      <div className="w-14 h-14 bg-primary-blue-3 text-white rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg shadow-primary/30">
         {step}
       </div>
       <h3 className="font-bold text-xl text-text-dark mb-3">{title}</h3>
@@ -59,7 +59,7 @@ export default function HomePage() {
           </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="text-center max-w-3xl mx-auto">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-5xl text-primary-blue-6 md:text-6xl font-bold mb-6 leading-tight">
                 Web3로 연결되는
                 <br />
                 새로운 독서 경험
@@ -71,7 +71,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href={ROUTES.SIGNUP}
-                  className="px-10 py-4 bg-white text-primary rounded-2xl text-lg font-bold hover:shadow-2xl hover:-translate-y-0.5 transition-all"
+                  className="px-10 py-4 bg-bg-light-3 border-2 border-primary-blue-3 text-primary-blue-5 rounded-2xl text-lg font-bold hover:shadow-2xl hover:-translate-y-0.5 transition-all"
                 >
                   시작하기
                 </Link>
@@ -87,13 +87,13 @@ export default function HomePage() {
         </section>
 
         {/* Features */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-bg-light-1">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-4xl font-bold text-center mb-4 text-text-dark">왜 BookChain인가요?</h2>
             <p className="text-center text-text-medium text-lg mb-16">안전하고 편리한 도서 대여의 모든 것</p>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FeatureCard
-                icon={<Book className="w-12 h-12 text-primary" />}
+                icon={<Book className="w-12 h-12 text-primary-blue-3" />}
                 title="디지털 서재 관리"
                 description="소장 도서를 디지털로 관리하고 다른 사용자와 공유하세요"
               />
@@ -117,7 +117,7 @@ export default function HomePage() {
         </section>
 
         {/* How It Works */}
-        <section className="py-20 bg-bg-light-1">
+        <section className="py-20 bg-bg-light-3">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-4xl font-bold text-center mb-4 text-text-dark">이용 방법</h2>
             <p className="text-center text-text-medium text-lg mb-16">3단계로 시작하는 간편한 도서 대여</p>

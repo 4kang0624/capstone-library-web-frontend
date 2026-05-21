@@ -19,7 +19,6 @@ interface AuthContextValue {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  isLoggingOut: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, nickname: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -31,7 +30,6 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
 
   const refreshUser = useCallback(async () => {
@@ -112,15 +110,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
-    setIsLoggingOut(true);
-    router.replace(ROUTES.HOME);
     const refreshToken = tokenStorage.getRefreshToken();
     if (refreshToken) {
       await authApi.logout(refreshToken).catch(() => {});
     }
     tokenStorage.clearTokens();
     setUser(null);
-  }, [router]);
+    // Use window.location to do a full page navigation to home
+    // This bypasses all React state race conditions
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 0);
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -128,7 +129,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         isAuthenticated: !!user,
         isLoading,
-        isLoggingOut,
         login,
         signup,
         logout,
