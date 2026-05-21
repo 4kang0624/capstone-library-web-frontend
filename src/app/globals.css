@@ -49,7 +49,7 @@
   
   /* Fonts */
   --font-serif: 'Eulyoo1945', serif;
-  --font-sans: 'Spoqa Han Sans Neo', sans-serif;
+  --font-sans: 'Spoqa Han Sans Neo', sans;
   --font-mono: var(--font-geist-mono);
 }
 

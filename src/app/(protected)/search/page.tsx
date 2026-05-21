@@ -9,7 +9,8 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { LoadingState } from '@/components/common/LoadingState';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageHeader } from '@/components/common/PageHeader';
-import { SearchResultCard, Input } from '@/components/ui';
+import { Input } from '@/components/ui';
+import { SearchResultCard } from '@/features/search/components/BookSearchResults';
 import type { SearchBookResult } from '@/features/search/types';
 
 export default function SearchPage() {

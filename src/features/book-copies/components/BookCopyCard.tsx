@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { Edit2, Trash2 } from 'lucide-react';
 import type { BookCopy } from '../types';
 import { CopyStatusBadge } from '@/components/common/StatusBadge';
+import { Badge } from '@/components/ui/Badge';
+import { BookCopyConditionStatusLabel } from '@/types/enums';
 import { cn } from '@/lib/utils/cn';
 
 interface BookCopyCardProps {
@@ -19,11 +21,11 @@ export function BookCopyCard({ copy, onEdit, onDelete, showActions = false, onCl
     <div
       onClick={onClick}
       className={cn(
-        'bg-white rounded-2xl border border-border overflow-hidden',
+        'bg-bg-light-2 rounded-2xl border border-border overflow-hidden',
         onClick && 'cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all',
       )}
     >
-      <div className="aspect-[2/3] relative bg-bg-lighter">
+      <div className="aspect-[2/3] relative">
         {copy.cover_image_url ? (
           <Image src={copy.cover_image_url} alt={copy.title || ''} fill className="object-cover" />
         ) : (
@@ -31,9 +33,12 @@ export function BookCopyCard({ copy, onEdit, onDelete, showActions = false, onCl
         )}
       </div>
       <div className="p-4">
-        <h3 className="font-bold text-text-dark text-sm line-clamp-2 mb-1">{copy.title || '제목 없음'}</h3>
-        <p className="text-xs text-text-gray mb-2">{copy.author}</p>
-        <CopyStatusBadge status={copy.current_status} />
+        <h3 className="font-serif font-bold text-text-dark text-sm line-clamp-2 mb-1">{copy.title || '제목 없음'}</h3>
+        <p className="font-serif text-xs text-text-gray mb-2">{copy.author}</p>
+        <div className="flex gap-2">
+          <Badge variant="default">상태: {BookCopyConditionStatusLabel[copy.condition_status]}</Badge>
+          <CopyStatusBadge status={copy.current_status} />
+        </div>
         {showActions && (
           <div className="flex gap-2 mt-3">
             {onEdit && (

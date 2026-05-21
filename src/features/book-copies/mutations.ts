@@ -15,7 +15,11 @@ export const useUpdateBookCopyMutation = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: number; data: Parameters<typeof bookCopiesApi.update>[1] }) =>
       bookCopiesApi.update(id, data),
-    onSuccess: () => qc.invalidateQueries({ queryKey: QUERY_KEYS.MY_BOOK_COPIES }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.MY_BOOK_COPIES });
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.RENTABLE_COPIES });
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.BOOK_COPIES });
+    },
   });
 };
 

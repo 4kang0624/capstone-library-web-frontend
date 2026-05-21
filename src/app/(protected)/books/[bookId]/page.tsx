@@ -2,7 +2,7 @@
 
 import { use } from 'react';
 import Image from 'next/image';
-import { ArrowLeft, Heart, LibraryBig, Check, MapPin } from 'lucide-react';
+import { ArrowLeft, Heart, LibraryBig, Check, MapPin, Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useBook } from '@/features/books/queries';
 import { useBookCopiesByBook, useMyBookCopies } from '@/features/book-copies/queries';
@@ -17,14 +17,16 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { RentalModal } from '@/features/book-copies/components';
 import { useCreateRentalMutation } from '@/features/rentals/mutations';
-import { DeliveryMethod, BookCopyConditionStatus, BookCopyConditionStatusLabel } from '@/types/enums';
+import { DeliveryMethod, BookCopyConditionStatus, BookCopyConditionStatusLabel, BookCopyCurrentStatus } from '@/types/enums';
 import type { BookCopy } from '@/features/book-copies/types';
 import { cn } from '@/lib/utils/cn';
+import { useToast } from '@/hooks/useToast';
 
 export default function BookDetailPage({ params }: { params: Promise<{ bookId: string }> }) {
   const router = useRouter();
   const { bookId } = use(params);
   const id = parseInt(bookId);
+  const { addToast } = useToast();
 
   const { data: book, isLoading: bookLoading } = useBook(id);
   const { data: copies = [], isLoading: copiesLoading } = useBookCopiesByBook(id);
@@ -32,7 +34,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
   const { data: wishlists = [] } = useMyWishlists();
   const { mutateAsync: addWishlist } = useAddWishlistMutation();
   const { mutateAsync: removeWishlist } = useRemoveWishlistMutation();
-  const { mutateAsync: createBookCopy } = useCreateBookCopyMutation();
+  const { mutateAsync: createBookCopy, isPending: isAddingToLibrary } = useCreateBookCopyMutation();
   const { mutateAsync: createRental, isPending: renting } = useCreateRentalMutation();
 
   const [selectedCopy, setSelectedCopy] = useState<BookCopy | null>(null);
@@ -40,6 +42,7 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
 
   const wishlistItem = wishlists.find((w) => w.book_id === id);
   const myBookCopy = myCopies.find((c) => c.book_id === id);
+  const rentableCopies = copies.filter((c) => c.is_available_for_rent && c.current_status === BookCopyCurrentStatus.AVAILABLE);
 
   if (bookLoading) return <LoadingState />;
   if (!book) return <EmptyState title="도서를 찾을 수 없습니다" />;
@@ -53,12 +56,18 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
   };
 
   const handleAddToLibrary = async () => {
-    if (!myBookCopy) {
+    if (myBookCopy || isAddingToLibrary) return;
+    
+    try {
       await createBookCopy({ 
         book_id: id, 
         condition_status: BookCopyConditionStatus.GOOD,
         is_available_for_rent: false 
       });
+      addToast('내 서재에 도서를 추가했습니다', 'success');
+    } catch (error) {
+      console.error('Failed to add book to library:', error);
+      addToast('도서 추가에 실패했습니다. 다시 시도해주세요.', 'error');
     }
   };
 
@@ -112,15 +121,20 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
         <Button
           variant="text"
           onClick={handleAddToLibrary}
-          disabled={!!myBookCopy}
+          disabled={!!myBookCopy || isAddingToLibrary}
           className={cn(
             'flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-300 font-medium',
-            myBookCopy
+            myBookCopy || isAddingToLibrary
               ? 'bg-bg-light-3 text-text-gray border border-gray cursor-not-allowed'
               : 'bg-bg-light-1 text-primary-blue-3 border border-primary-blue-3 hover:bg-primary-blue-2 active:scale-95'
           )}
         >
-          {myBookCopy ? (
+          {isAddingToLibrary ? (
+            <>
+              <Loader className="w-5 h-5 animate-spin" />
+              <span>추가 중...</span>
+            </>
+          ) : myBookCopy ? (
             <>
               <Check className="w-5 h-5 animate-pulse" />
               <span>서재 등록 완료</span>
@@ -162,8 +176,8 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
         <div className="md:col-span-2 space-y-6">
           {/* Book Info Section */}
           <div>
-            <h1 className="text-4xl font-bold text-text-dark mb-3">{book.title}</h1>
-            <p className="text-2xl text-text-medium font-semibold mb-4">{book.author}</p>
+            <h1 className="font-serif text-4xl font-bold text-text-dark mb-3">{book.title}</h1>
+            <p className="font-serif text-2xl text-text-medium font-semibold mb-4">{book.author}</p>
             <div className="flex gap-4 text-sm text-text-gray mb-4">
               <span className="font-medium">출판사: {book.publisher}</span>
               <span>•</span>
@@ -184,16 +198,16 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
           {/* Available Copies Card */}
           <Card padding="lg">
             <h2 className="font-semibold text-lg text-text-dark mb-4">
-              대여 가능한 도서 ({copies.length}권)
+              대여 가능한 도서 ({rentableCopies.length}권)
             </h2>
 
             {copiesLoading ? (
               <div className="text-center py-8 text-text-light">로드 중...</div>
-            ) : copies.length === 0 ? (
+            ) : rentableCopies.length === 0 ? (
               <div className="text-center py-8 text-text-light">현재 대여 가능한 사본이 없습니다</div>
             ) : (
               <div className="space-y-3">
-                {copies.map((copy) => (
+                {rentableCopies.map((copy) => (
                   <div
                     key={copy.id}
                     onClick={() => handleSelectCopy(copy)}
@@ -245,8 +259,8 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
               onClick={() => {
                 if (selectedCopy) {
                   setRentalModalOpen(true);
-                } else if (copies.length > 0) {
-                  handleSelectCopy(copies[0]);
+                } else if (rentableCopies.length > 0) {
+                  handleSelectCopy(rentableCopies[0]);
                 }
               }}
               size="lg"

@@ -14,9 +14,9 @@ const rentalStatusVariant: Record<RentalStatus, 'default' | 'primary' | 'success
 
 const copyStatusVariant: Record<BookCopyCurrentStatus, 'default' | 'success' | 'warning' | 'error'> = {
   [BookCopyCurrentStatus.AVAILABLE]: 'success',
-  [BookCopyCurrentStatus.REQUESTED]: 'warning',
+  [BookCopyCurrentStatus.REQUESTED]: 'default',
   [BookCopyCurrentStatus.RENTED]: 'warning',
-  [BookCopyCurrentStatus.UNAVAILABLE]: 'default',
+  [BookCopyCurrentStatus.UNAVAILABLE]: 'error',
 };
 
 export function RentalStatusBadge({ status }: { status: RentalStatus }) {

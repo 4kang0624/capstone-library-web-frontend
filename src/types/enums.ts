@@ -63,10 +63,10 @@ export enum BookCopyCurrentStatus {
 }
 
 export const BookCopyCurrentStatusLabel: Record<BookCopyCurrentStatus, string> = {
-  [BookCopyCurrentStatus.AVAILABLE]: '대여가능',
-  [BookCopyCurrentStatus.REQUESTED]: '신청됨',
-  [BookCopyCurrentStatus.RENTED]: '대여중',
-  [BookCopyCurrentStatus.UNAVAILABLE]: '대여불가',
+  [BookCopyCurrentStatus.AVAILABLE]: '대여 가능',
+  [BookCopyCurrentStatus.REQUESTED]: '대여 요청중',
+  [BookCopyCurrentStatus.RENTED]: '대여 중',
+  [BookCopyCurrentStatus.UNAVAILABLE]: '대여 불가',
 };
 
 // Reading Status

@@ -4,6 +4,8 @@ import "./globals.css";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { Web3Provider } from "@/providers/Web3Provider";
+import { ToastProvider } from "@/providers/ToastProvider";
+import { ToastContainer } from "@/components/common/ToastContainer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +35,12 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <QueryProvider>
           <AuthProvider>
-            <Web3Provider>{children}</Web3Provider>
+            <Web3Provider>
+              <ToastProvider>
+                {children}
+                <ToastContainer />
+              </ToastProvider>
+            </Web3Provider>
           </AuthProvider>
         </QueryProvider>
       </body>

@@ -6,3 +6,4 @@ export { ConfirmDialog } from './ConfirmDialog';
 export { ErrorBoundary } from './ErrorBoundary';
 export { FileUploadField } from './FileUploadField';
 export { RentalStatusBadge, CopyStatusBadge, ReadingStatusBadge } from './StatusBadge';
+export { ToastContainer } from './ToastContainer';

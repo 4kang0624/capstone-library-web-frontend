@@ -34,10 +34,10 @@ export function AppHeader() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href={ROUTES.HOME} className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-blue-3 to-primary-blue-1 rounded-xl flex items-center justify-center shadow-lg shadow-primary-blue-3/20 group-hover:shadow-primary-blue-3/40 transition-all">
+            <div className="w-10 h-10 bg-primary-blue-3 rounded-xl flex items-center justify-center shadow-lg shadow-primary-blue-3/20 group-hover:shadow-primary-blue-3/40 transition-all">
               <Book className="w-6 h-6 text-white" />
             </div>
-            <span className="font-bold text-xl text-text-dark">BookChain</span>
+            <span className="font-extrabold font-serif text-xl text-text-dark">BookChain</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -47,7 +47,7 @@ export function AppHeader() {
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`px-4 py-2 rounded-xl flex items-center gap-2 transition-all font-semibold text-sm ${
+                  className={`font-medium px-4 py-2 rounded-xl flex items-center gap-2 transition-all text-sm ${
                     isActive(link.path)
                       ? 'bg-bg-light-5 text-primary-blue-5'
                       : 'text-text-gray hover:bg-bg-light-4 hover:text-text-dark active:bg-bg-light-5'
@@ -74,7 +74,7 @@ export function AppHeader() {
                   </button>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <span className="px-4 py-2 bg-gradient-to-r from-success to-success-light text-white rounded-xl text-sm font-bold shadow-md">
+                    <span className="px-4 py-2 bg-primary-blue-2 text-white rounded-xl text-sm font-bold shadow-md">
                       {account?.slice(0, 6)}...{account?.slice(-4)}
                     </span>
                     <button
