@@ -26,7 +26,6 @@ export function AppHeader() {
 
   const handleLogout = async () => {
     await logout();
-    router.push(ROUTES.HOME);
   };
 
   return (
@@ -50,8 +49,8 @@ export function AppHeader() {
                   href={link.path}
                   className={`px-4 py-2 rounded-xl flex items-center gap-2 transition-all font-semibold text-sm ${
                     isActive(link.path)
-                      ? 'bg-bg-light-2 text-primary-blue-3'
-                      : 'text-text-gray hover:bg-bg-light-1 hover:text-text-dark'
+                      ? 'bg-bg-light-5 text-primary-blue-5'
+                      : 'text-text-gray hover:bg-bg-light-4 hover:text-text-dark active:bg-bg-light-5'
                   }`}
                 >
                   <link.icon className="w-4 h-4" />
@@ -68,7 +67,7 @@ export function AppHeader() {
                 {!isConnected ? (
                   <button
                     onClick={connectWallet}
-                    className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-xl text-sm font-semibold text-text-gray hover:border-primary hover:text-primary transition-all"
+                    className="flex items-center gap-2 px-4 py-2 border border-border rounded-xl text-sm font-semibold text-text-gray hover:bg-bg-light-4 hover:text-primary transition-all hover:text-text-dark"
                   >
                     <Wallet className="w-4 h-4" />
                     지갑 연결
@@ -88,14 +87,14 @@ export function AppHeader() {
                 )}
                 <Link
                   href={ROUTES.PROFILE}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-text-gray hover:bg-bg-light-1 hover:text-text-dark transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-text-gray hover:bg-bg-light-4 hover:text-text-dark transition-all"
                 >
                   <User className="w-4 h-4" />
                   {user?.nickname}
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-text-gray hover:bg-bg-light-1 hover:text-red-500 transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-text-gray hover:bg-bg-light-4 hover:text-red-500 transition-all"
                 >
                   <LogOut className="w-4 h-4" />
                   로그아웃
