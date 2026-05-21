@@ -18,10 +18,10 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <div className="bg-white p-6 rounded-2xl border border-[#E5E8EB] hover:shadow-lg hover:-translate-y-1 transition-all">
+    <div className="bg-white p-6 rounded-2xl border border-border hover:shadow-lg hover:-translate-y-1 transition-all">
       <div className="mb-4">{icon}</div>
-      <h3 className="font-bold text-lg text-[#191F28] mb-2">{title}</h3>
-      <p className="text-[#6B7684] text-sm leading-relaxed">{description}</p>
+      <h3 className="font-bold text-lg text-text-dark mb-2">{title}</h3>
+      <p className="text-text-gray text-sm leading-relaxed">{description}</p>
     </div>
   );
 }
@@ -29,11 +29,11 @@ function FeatureCard({
 function StepCard({ step, title, description }: { step: string; title: string; description: string }) {
   return (
     <div className="text-center p-6">
-      <div className="w-14 h-14 bg-[#3182F6] text-white rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg shadow-[#3182F6]/30">
+      <div className="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4 shadow-lg shadow-primary/30">
         {step}
       </div>
-      <h3 className="font-bold text-xl text-[#191F28] mb-3">{title}</h3>
-      <p className="text-[#6B7684] leading-relaxed">{description}</p>
+      <h3 className="font-bold text-xl text-text-dark mb-3">{title}</h3>
+      <p className="text-text-gray leading-relaxed">{description}</p>
     </div>
   );
 }
@@ -52,7 +52,7 @@ export default function HomePage() {
     <AppShell>
       <div className="min-h-[calc(100vh-8rem)]">
         {/* Hero */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#3182F6] via-[#4593FC] to-[#5BA4FF] text-white py-24">
+        <section className="relative overflow-hidden bg-gradient-to-br from-primary-blue-3 via-primary-blue-2 to-primary-blue-1 text-white py-24">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
             <div className="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full blur-3xl" />
@@ -71,7 +71,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href={ROUTES.SIGNUP}
-                  className="px-10 py-4 bg-white text-[#3182F6] rounded-2xl text-lg font-bold hover:shadow-2xl hover:-translate-y-0.5 transition-all"
+                  className="px-10 py-4 bg-white text-primary rounded-2xl text-lg font-bold hover:shadow-2xl hover:-translate-y-0.5 transition-all"
                 >
                   시작하기
                 </Link>
@@ -89,26 +89,26 @@ export default function HomePage() {
         {/* Features */}
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-center mb-4 text-[#191F28]">왜 BookChain인가요?</h2>
-            <p className="text-center text-[#4E5968] text-lg mb-16">안전하고 편리한 도서 대여의 모든 것</p>
+            <h2 className="text-4xl font-bold text-center mb-4 text-text-dark">왜 BookChain인가요?</h2>
+            <p className="text-center text-text-medium text-lg mb-16">안전하고 편리한 도서 대여의 모든 것</p>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FeatureCard
-                icon={<Book className="w-12 h-12 text-[#3182F6]" />}
+                icon={<Book className="w-12 h-12 text-primary" />}
                 title="디지털 서재 관리"
                 description="소장 도서를 디지털로 관리하고 다른 사용자와 공유하세요"
               />
               <FeatureCard
-                icon={<TrendingUp className="w-12 h-12 text-[#4CAF50]" />}
+                icon={<TrendingUp className="w-12 h-12 text-success" />}
                 title="P2P 대여 시스템"
                 description="중개자 없이 직접 도서를 대여하고 수익을 창출하세요"
               />
               <FeatureCard
-                icon={<Shield className="w-12 h-12 text-[#9C27B0]" />}
+                icon={<Shield className="w-12 h-12 text-purple" />}
                 title="스마트 컨트랙트 에스크로"
                 description="블록체인 기술로 보증금과 거래를 안전하게 보호합니다"
               />
               <FeatureCard
-                icon={<Zap className="w-12 h-12 text-[#FFAC33]" />}
+                icon={<Zap className="w-12 h-12 text-orange" />}
                 title="빠른 거래"
                 description="이더리움 테스트넷으로 빠르고 저렴한 거래를 경험하세요"
               />
@@ -117,10 +117,10 @@ export default function HomePage() {
         </section>
 
         {/* How It Works */}
-        <section className="py-20 bg-[#F9FAFB]">
+        <section className="py-20 bg-bg-light-1">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-center mb-4 text-[#191F28]">이용 방법</h2>
-            <p className="text-center text-[#4E5968] text-lg mb-16">3단계로 시작하는 간편한 도서 대여</p>
+            <h2 className="text-4xl font-bold text-center mb-4 text-text-dark">이용 방법</h2>
+            <p className="text-center text-text-medium text-lg mb-16">3단계로 시작하는 간편한 도서 대여</p>
             <div className="grid md:grid-cols-3 gap-8">
               <StepCard
                 step="1"

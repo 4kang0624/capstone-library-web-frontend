@@ -42,10 +42,10 @@ export function BookCopyForm({ initialValues, onSubmit, loading, submitLabel = '
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div>
-        <label className="text-sm font-semibold text-[#4E5968] block mb-1.5">도서 상태</label>
+        <label className="text-sm font-semibold text-text-medium block mb-1.5">도서 상태</label>
         <select
           {...register('condition_status')}
-          className="w-full border border-[#E5E8EB] rounded-xl px-4 py-3 text-[#191F28] focus:border-[#3182F6] outline-none"
+          className="w-full border border-border rounded-xl px-4 py-3 text-text-dark focus:border-primary outline-none"
         >
           {Object.values(BookCopyConditionStatus).map((v) => (
             <option key={v} value={v}>{conditionLabels[v]}</option>
@@ -53,8 +53,8 @@ export function BookCopyForm({ initialValues, onSubmit, loading, submitLabel = '
         </select>
       </div>
       <label className="flex items-center gap-3 cursor-pointer">
-        <input type="checkbox" {...register('is_available_for_rent')} className="w-5 h-5 rounded accent-[#3182F6]" />
-        <span className="text-sm font-semibold text-[#4E5968]">대여 가능 상태로 설정</span>
+        <input type="checkbox" {...register('is_available_for_rent')} className="w-5 h-5 rounded accent-primary" />
+        <span className="text-sm font-semibold text-text-medium">대여 가능 상태로 설정</span>
       </label>
       <Input
         label="메모 (선택사항)"

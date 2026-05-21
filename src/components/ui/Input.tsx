@@ -18,21 +18,21 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
   return (
     <div className="flex flex-col gap-1.5">
       {label && (
-        <label className="text-sm font-semibold text-[#4E5968]">{label}</label>
+        <label className="text-sm font-semibold text-text-medium">{label}</label>
       )}
       <div className="relative">
         {startAdornment && (
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7684]">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-text-gray">
             {startAdornment}
           </div>
         )}
         <input
           ref={ref}
           className={cn(
-            'w-full border border-[#E5E8EB] rounded-xl px-4 py-3 text-[#191F28]',
-            'placeholder:text-[#8B95A1] outline-none',
-            'focus:border-[#3182F6] focus:ring-2 focus:ring-[#3182F6]/20 transition-all',
-            error && 'border-[#F44336] focus:border-[#F44336] focus:ring-[#F44336]/20',
+            'w-full border border-border rounded-xl px-4 py-3 text-text-dark',
+            'bg-bg-light-1 placeholder:text-text-light outline-none',
+            'focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all',
+            error && 'border-error focus:border-error focus:ring-error/20',
             startAdornment ? 'pl-11' : undefined,
             endAdornment ? 'pr-11' : undefined,
             className,
@@ -40,13 +40,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           {...props}
         />
         {endAdornment && (
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B7684]">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-text-gray">
             {endAdornment}
           </div>
         )}
       </div>
-      {error && <p className="text-sm text-[#F44336]">{error}</p>}
-      {helperText && !error && <p className="text-sm text-[#6B7684]">{helperText}</p>}
+      {error && <p className="text-sm text-error">{error}</p>}
+      {helperText && !error && <p className="text-sm text-text-gray">{helperText}</p>}
     </div>
   );
 });

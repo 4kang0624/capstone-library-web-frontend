@@ -1,13 +1,50 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
   --foreground: #171717;
 }
 
 @theme inline {
-  --color-background: var(--background);
+  /* Background colors */
+  --color-bg-light-1: #FCFAF6;
+  --color-bg-light-2: #FAF8F3;
+  --color-bg-light-3: #F6F4EF;
+  --color-bg-light-4: #F2EFE8;
+  
+  /* Primary colors */
+  --color-primary-blue-1: #B8CDF5; /* light active bg / subtle selected bg */
+  --color-primary-blue-2: #7FA1E3; /* stronger active bg / soft filled state */
+  --color-primary-blue-3: #4E76C9; /* base primary */
+  --color-primary-blue-4: #3F66B2; /* hover */
+  --color-primary-blue-5: #31579E; /* pressed / strong emphasis */
+  --color-primary-blue-6: #12264A; /* deep navy / strong emphasis */
+  
+  /* Accent colors */
+  --color-purple: #9C27B0;
+  --color-orange: #FFAC33;
+  
+  /* Text colors */
+  --color-text-dark: #191F28;
+  --color-text-gray: #6B7684;
+  --color-text-light: #8B95A1;
+  --color-text-medium: #4E5968;
+  
+  /* UI colors */
+  --color-border: #E5E8EB;
+  --color-success: #4CAF50;
+  --color-success-light: #66BB6A;
+  --color-success-dark: #2E7D32;
+  --color-warning: #FF9800;
+  --color-warning-dark: #E65100;
+  --color-error: #F44336;
+  --color-error-dark: #C62828;
+  --color-info: #2196F3;
+  --color-info-dark: #1565C0;
+  
+  /* Foreground */
   --color-foreground: var(--foreground);
+  
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

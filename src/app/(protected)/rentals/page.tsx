@@ -24,15 +24,15 @@ function RentalCard({ rental, userId }: { rental: Rental; userId?: number }) {
   const isBorrower = rental.borrower_user_id === userId;
   return (
     <Link href={ROUTES.RENTAL_DETAIL(rental.id)}>
-      <div className="bg-white rounded-2xl border border-[#E5E8EB] p-5 hover:shadow-md hover:-translate-y-0.5 transition-all">
+      <div className="bg-white rounded-2xl border border-border p-5 hover:shadow-md hover:-translate-y-0.5 transition-all">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-xs text-[#6B7684]">#{rental.id} · {isBorrower ? '빌린 책' : '빌려준 책'}</span>
+          <span className="text-xs text-text-gray">#{rental.id} · {isBorrower ? '빌린 책' : '빌려준 책'}</span>
           <RentalStatusBadge status={rental.rental_status} />
         </div>
-        <p className="font-bold text-[#191F28] mb-1">대여 #{rental.id}</p>
-        <p className="text-sm text-[#6B7684]">신청일: {formatDate(rental.requested_at)}</p>
+        <p className="font-bold text-text-dark mb-1">대여 #{rental.id}</p>
+        <p className="text-sm text-text-gray">신청일: {formatDate(rental.requested_at)}</p>
         {rental.due_date && (
-          <p className="text-sm text-[#6B7684]">반납 예정: {formatDate(rental.due_date)}</p>
+          <p className="text-sm text-text-gray">반납 예정: {formatDate(rental.due_date)}</p>
         )}
       </div>
     </Link>

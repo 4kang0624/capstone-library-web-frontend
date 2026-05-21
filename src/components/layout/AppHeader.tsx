@@ -30,15 +30,15 @@ export function AppHeader() {
   };
 
   return (
-    <header className="bg-white border-b border-[#E5E8EB] sticky top-0 z-50 backdrop-blur-lg bg-white/95">
+    <header className="border-b border-background-bright sticky top-0 z-50 backdrop-blur-lg bg-bg-light-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href={ROUTES.HOME} className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#3182F6] to-[#5BA4FF] rounded-xl flex items-center justify-center shadow-lg shadow-[#3182F6]/20 group-hover:shadow-[#3182F6]/40 transition-all">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary-blue-3 to-primary-blue-1 rounded-xl flex items-center justify-center shadow-lg shadow-primary-blue-3/20 group-hover:shadow-primary-blue-3/40 transition-all">
               <Book className="w-6 h-6 text-white" />
             </div>
-            <span className="font-bold text-xl text-[#191F28]">BookChain</span>
+            <span className="font-bold text-xl text-text-dark">BookChain</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -50,8 +50,8 @@ export function AppHeader() {
                   href={link.path}
                   className={`px-4 py-2 rounded-xl flex items-center gap-2 transition-all font-semibold text-sm ${
                     isActive(link.path)
-                      ? 'bg-[#F2F4F6] text-[#3182F6]'
-                      : 'text-[#6B7684] hover:bg-[#F9FAFB] hover:text-[#191F28]'
+                      ? 'bg-bg-light-2 text-primary-blue-3'
+                      : 'text-text-gray hover:bg-bg-light-1 hover:text-text-dark'
                   }`}
                 >
                   <link.icon className="w-4 h-4" />
@@ -68,19 +68,19 @@ export function AppHeader() {
                 {!isConnected ? (
                   <button
                     onClick={connectWallet}
-                    className="flex items-center gap-2 px-4 py-2 border-2 border-[#E5E8EB] rounded-xl text-sm font-semibold text-[#6B7684] hover:border-[#3182F6] hover:text-[#3182F6] transition-all"
+                    className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-xl text-sm font-semibold text-text-gray hover:border-primary hover:text-primary transition-all"
                   >
                     <Wallet className="w-4 h-4" />
                     지갑 연결
                   </button>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <span className="px-4 py-2 bg-gradient-to-r from-[#4CAF50] to-[#66BB6A] text-white rounded-xl text-sm font-bold shadow-md">
+                    <span className="px-4 py-2 bg-gradient-to-r from-success to-success-light text-white rounded-xl text-sm font-bold shadow-md">
                       {account?.slice(0, 6)}...{account?.slice(-4)}
                     </span>
                     <button
                       onClick={disconnectWallet}
-                      className="text-sm font-semibold text-[#6B7684] hover:text-[#191F28] px-2"
+                      className="text-sm font-semibold text-text-gray hover:text-text-dark px-2"
                     >
                       해제
                     </button>
@@ -88,14 +88,14 @@ export function AppHeader() {
                 )}
                 <Link
                   href={ROUTES.PROFILE}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-[#6B7684] hover:bg-[#F9FAFB] hover:text-[#191F28] transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-text-gray hover:bg-bg-light-1 hover:text-text-dark transition-all"
                 >
                   <User className="w-4 h-4" />
                   {user?.nickname}
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-[#6B7684] hover:bg-[#F9FAFB] hover:text-red-500 transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-text-gray hover:bg-bg-light-1 hover:text-red-500 transition-all"
                 >
                   <LogOut className="w-4 h-4" />
                   로그아웃
@@ -105,13 +105,13 @@ export function AppHeader() {
               <div className="flex items-center gap-2">
                 <Link
                   href={ROUTES.LOGIN}
-                  className="px-4 py-2 rounded-xl text-sm font-semibold text-[#6B7684] hover:bg-[#F9FAFB] hover:text-[#191F28] transition-all"
+                  className="px-4 py-2 rounded-xl text-sm font-semibold text-text-gray hover:bg-bg-light-1 hover:text-text-dark transition-all"
                 >
                   로그인
                 </Link>
                 <Link
                   href={ROUTES.SIGNUP}
-                  className="px-4 py-2 bg-[#3182F6] text-white rounded-xl text-sm font-bold hover:bg-[#2772E6] transition-all shadow-md shadow-[#3182F6]/20"
+                  className="px-4 py-2 bg-primary-blue-3 text-white rounded-xl text-sm font-bold hover:bg-primary-blue-4 transition-all shadow-md shadow-primary-blue-3/20"
                 >
                   회원가입
                 </Link>
@@ -121,7 +121,7 @@ export function AppHeader() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-xl text-[#6B7684] hover:bg-[#F9FAFB]"
+            className="md:hidden p-2 rounded-xl text-text-gray hover:bg-bg-light-1"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -131,7 +131,7 @@ export function AppHeader() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[#E5E8EB] bg-white px-4 py-4 space-y-2">
+        <div className="md:hidden border-t border-border bg-white px-4 py-4 space-y-2">
           {isAuthenticated &&
             NAV_LINKS.map((link) => (
               <Link
@@ -140,8 +140,8 @@ export function AppHeader() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl font-semibold ${
                   isActive(link.path)
-                    ? 'bg-[#F2F4F6] text-[#3182F6]'
-                    : 'text-[#6B7684] hover:bg-[#F9FAFB]'
+                    ? 'bg-bg-light-2 text-primary'
+                    : 'text-text-gray hover:bg-bg-light-1'
                 }`}
               >
                 <link.icon className="w-5 h-5" />
@@ -161,14 +161,14 @@ export function AppHeader() {
               <Link
                 href={ROUTES.LOGIN}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex-1 text-center px-4 py-3 border-2 border-[#E5E8EB] rounded-xl font-semibold text-[#6B7684]"
+                className="flex-1 text-center px-4 py-3 border-2 border-border rounded-xl font-semibold text-text-gray"
               >
                 로그인
               </Link>
               <Link
                 href={ROUTES.SIGNUP}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex-1 text-center px-4 py-3 bg-[#3182F6] text-white rounded-xl font-bold"
+                className="flex-1 text-center px-4 py-3 bg-primary text-white rounded-xl font-bold"
               >
                 회원가입
               </Link>

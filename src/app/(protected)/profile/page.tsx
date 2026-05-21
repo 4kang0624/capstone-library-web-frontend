@@ -39,8 +39,8 @@ export default function ProfilePage() {
       <PageHeader title="프로필" description="계정 정보를 관리하세요" />
 
       {/* Profile */}
-      <div className="bg-white rounded-2xl border border-[#E5E8EB] p-6 mb-4">
-        <h2 className="text-lg font-bold text-[#191F28] mb-4">기본 정보</h2>
+      <div className="bg-white rounded-2xl border border-border p-6 mb-4">
+        <h2 className="text-lg font-bold text-text-dark mb-4">기본 정보</h2>
         <form onSubmit={profileForm.handleSubmit((v) => updateProfile(v))} className="flex flex-col gap-4">
           <Input label="이메일" value={user?.email ?? ''} disabled />
           <Input
@@ -53,27 +53,27 @@ export default function ProfilePage() {
       </div>
 
       {/* Wallet */}
-      <div className="bg-white rounded-2xl border border-[#E5E8EB] p-6 mb-4">
-        <h2 className="text-lg font-bold text-[#191F28] mb-4">Web3 지갑</h2>
+      <div className="bg-white rounded-2xl border border-border p-6 mb-4">
+        <h2 className="text-lg font-bold text-text-dark mb-4">Web3 지갑</h2>
         {isConnected && account ? (
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-[#6B7684] mb-1">연결된 지갑</p>
-              <p className="font-mono font-bold text-[#191F28]">{shortenAddress(account)}</p>
+              <p className="text-sm text-text-gray mb-1">연결된 지갑</p>
+              <p className="font-mono font-bold text-text-dark">{shortenAddress(account)}</p>
             </div>
             <Button variant="outlined" size="sm" onClick={disconnectWallet}>연결 해제</Button>
           </div>
         ) : (
           <div className="flex items-center justify-between">
-            <p className="text-[#6B7684]">지갑이 연결되지 않았습니다</p>
+            <p className="text-text-gray">지갑이 연결되지 않았습니다</p>
             <Button size="sm" onClick={connectWallet}>MetaMask 연결</Button>
           </div>
         )}
       </div>
 
       {/* Password */}
-      <div className="bg-white rounded-2xl border border-[#E5E8EB] p-6">
-        <h2 className="text-lg font-bold text-[#191F28] mb-4">비밀번호 변경</h2>
+      <div className="bg-white rounded-2xl border border-border p-6">
+        <h2 className="text-lg font-bold text-text-dark mb-4">비밀번호 변경</h2>
         <form
           onSubmit={pwForm.handleSubmit((v) => updatePassword(v))}
           className="flex flex-col gap-4"

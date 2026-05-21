@@ -10,8 +10,8 @@ interface BookCardProps {
 export function BookCard({ book }: BookCardProps) {
   return (
     <Link href={ROUTES.BOOK_DETAIL(book.id)} className="block">
-      <div className="bg-white rounded-2xl border border-[#E5E8EB] overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all">
-        <div className="aspect-[2/3] relative bg-[#F2F4F6] overflow-hidden">
+      <div className="bg-white rounded-2xl border border-border overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all">
+        <div className="aspect-[2/3] relative bg-bg-light overflow-hidden">
           {book.cover_image_url ? (
             <Image
               src={book.cover_image_url}
@@ -20,14 +20,14 @@ export function BookCard({ book }: BookCardProps) {
               className="object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-[#8B95A1] text-4xl">
+            <div className="w-full h-full flex items-center justify-center text-text-light text-4xl">
               📚
             </div>
           )}
         </div>
         <div className="p-4">
-          <h3 className="font-bold text-[#191F28] text-sm line-clamp-2 mb-1">{book.title}</h3>
-          <p className="text-xs text-[#6B7684]">{book.author}</p>
+          <h3 className="font-bold text-text-dark text-sm line-clamp-2 mb-1">{book.title}</h3>
+          <p className="text-xs text-text-gray">{book.author}</p>
         </div>
       </div>
     </Link>

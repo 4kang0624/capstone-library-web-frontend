@@ -61,9 +61,9 @@ export default function LibraryPage() {
               onChange={(e) => setIsbn(e.target.value)}
             />
             {searchResult && (
-              <div className="p-4 bg-[#F9FAFB] rounded-xl">
-                <p className="font-bold text-[#191F28]">{(searchResult as unknown as { title: string }).title}</p>
-                <p className="text-sm text-[#6B7684]">{(searchResult as unknown as { author: string }).author}</p>
+              <div className="p-4 bg-bg-lighter rounded-xl">
+                <p className="font-bold text-text-dark">{(searchResult as unknown as { title: string }).title}</p>
+                <p className="text-sm text-text-gray">{(searchResult as unknown as { author: string }).author}</p>
               </div>
             )}
             <Button onClick={handleIsbnSearch} loading={importing} disabled={!searchResult} fullWidth>

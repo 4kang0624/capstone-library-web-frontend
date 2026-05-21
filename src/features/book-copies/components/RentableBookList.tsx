@@ -44,12 +44,12 @@ export function RentableBookList() {
       <Modal open={!!selected} onClose={() => { setSelected(null); setShipping(''); }} title="대여 신청">
         {selected && (
           <div className="flex flex-col gap-4">
-            <p className="text-[#4E5968]">
-              <span className="font-bold text-[#191F28]">{selected.title}</span>
+            <p className="text-text-medium">
+              <span className="font-bold text-text-dark">{selected.title}</span>
               을(를) 대여하시겠습니까?
             </p>
             <input
-              className="w-full border border-[#E5E8EB] rounded-xl px-4 py-3 text-[#191F28] focus:border-[#3182F6] outline-none placeholder:text-[#8B95A1]"
+              className="w-full border border-border rounded-xl px-4 py-3 text-text-dark focus:border-primary outline-none placeholder:text-text-light"
               placeholder="배송 주소를 입력하세요"
               value={shipping}
               onChange={(e) => setShipping(e.target.value)}

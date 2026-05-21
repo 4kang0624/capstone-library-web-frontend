@@ -29,9 +29,9 @@ export default function WishlistsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {items.map((item) => (
-            <div key={item.id} className="bg-white rounded-2xl border border-[#E5E8EB] p-5">
+            <div key={item.id} className="bg-white rounded-2xl border border-border p-5">
               <Link href={ROUTES.BOOK_DETAIL(item.book_id)} className="block mb-3">
-                <h3 className="font-bold text-[#191F28] hover:text-[#3182F6] transition-colors">
+                <h3 className="font-bold text-text-dark hover:text-primary transition-colors">
                   도서 #{item.book_id}
                 </h3>
               </Link>

@@ -5,14 +5,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { loginSchema, type LoginFormValues } from '../schemas';
-import { useLoginMutation } from '../mutations';
+import { useAuth } from '@/hooks/useAuth';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { ROUTES } from '@/constants/routes';
+import { useState } from 'react';
 
 export function LoginForm() {
   const router = useRouter();
-  const { mutateAsync, isPending, error } = useLoginMutation();
+  const { login } = useAuth();
+  const [isPending, setPending] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const {
     register,
@@ -22,10 +25,14 @@ export function LoginForm() {
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
-      await mutateAsync(values);
+      setPending(true);
+      setError(null);
+      await login(values.email, values.password);
       router.push(ROUTES.LIBRARY);
-    } catch {
-      // error shown below
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('로그인에 실패했습니다.'));
+    } finally {
+      setPending(false);
     }
   };
 
@@ -46,16 +53,16 @@ export function LoginForm() {
         error={errors.password?.message}
       />
       {error && (
-        <p className="text-sm text-[#F44336] text-center">
-          {(error as Error).message || '로그인에 실패했습니다.'}
+        <p className="text-sm text-error text-center">
+          {error.message}
         </p>
       )}
       <Button type="submit" loading={isPending} fullWidth className="mt-2">
         로그인
       </Button>
-      <p className="text-center text-sm text-[#6B7684]">
+      <p className="text-center text-sm text-text-gray">
         계정이 없으신가요?{' '}
-        <Link href={ROUTES.SIGNUP} className="text-[#3182F6] font-semibold hover:underline">
+        <Link href={ROUTES.SIGNUP} className="text-primary font-semibold hover:underline">
           회원가입
         </Link>
       </p>

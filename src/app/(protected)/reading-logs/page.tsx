@@ -64,20 +64,20 @@ export default function ReadingLogsPage() {
       ) : (
         <div className="flex flex-col gap-3">
           {logs.map((log) => (
-            <div key={log.id} className="bg-white rounded-2xl border border-[#E5E8EB] p-5 flex items-center justify-between">
+            <div key={log.id} className="bg-white rounded-2xl border border-border p-5 flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="font-bold text-[#191F28]">도서 #{log.book_id}</span>
+                  <span className="font-bold text-text-dark">도서 #{log.book_id}</span>
                   <ReadingStatusBadge status={log.reading_status as ReadingStatus} />
                 </div>
-                {log.memo && <p className="text-sm text-[#6B7684]">{log.memo}</p>}
-                <p className="text-xs text-[#8B95A1] mt-1">{formatDate(log.created_at)}</p>
+                {log.memo && <p className="text-sm text-text-gray">{log.memo}</p>}
+                <p className="text-xs text-text-light mt-1">{formatDate(log.created_at)}</p>
               </div>
               <Button
                 variant="text"
                 size="sm"
                 onClick={() => setDeleteId(log.id)}
-                className="text-[#F44336]"
+                className="text-error"
               >
                 삭제
               </Button>
@@ -90,8 +90,8 @@ export default function ReadingLogsPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <Input label="도서 ID" type="number" {...register('book_id')} error={errors.book_id?.message} />
           <div>
-            <label className="text-sm font-semibold text-[#4E5968] block mb-1.5">독서 상태</label>
-            <select {...register('reading_status')} className="w-full border border-[#E5E8EB] rounded-xl px-4 py-3 text-[#191F28] focus:border-[#3182F6] outline-none">
+            <label className="text-sm font-semibold text-text-medium block mb-1.5">독서 상태</label>
+            <select {...register('reading_status')} className="w-full border border-border rounded-xl px-4 py-3 text-text-dark focus:border-primary outline-none">
               {Object.values(ReadingStatus).map((v) => <option key={v} value={v}>{v}</option>)}
             </select>
           </div>

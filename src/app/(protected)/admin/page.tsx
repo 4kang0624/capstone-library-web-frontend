@@ -17,8 +17,8 @@ export default function AdminPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <PageHeader title="관리자 패널" description="사용자 및 도서 관리" />
-      <div className="bg-white rounded-2xl border border-[#E5E8EB] p-6">
-        <p className="text-[#6B7684]">관리자 기능이 여기에 표시됩니다.</p>
+      <div className="bg-white rounded-2xl border border-border p-6">
+        <p className="text-text-gray">관리자 기능이 여기에 표시됩니다.</p>
       </div>
     </div>
   );

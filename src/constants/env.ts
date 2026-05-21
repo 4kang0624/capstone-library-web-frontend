@@ -2,3 +2,5 @@ export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000';
 export const API_PREFIX = '/api';
 export const APP_NAME = 'BookChain';
+export const BLOCKCHAIN_EXPLORER_URL =
+  process.env.NEXT_PUBLIC_BLOCKCHAIN_EXPLORER_URL ?? '';

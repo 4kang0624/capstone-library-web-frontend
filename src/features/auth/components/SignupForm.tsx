@@ -5,16 +5,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signupSchema, type SignupFormValues } from '../schemas';
-import { useSignupMutation } from '../mutations';
-import { useLoginMutation } from '../mutations';
+import { useAuth } from '@/hooks/useAuth';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { ROUTES } from '@/constants/routes';
+import { useState } from 'react';
 
 export function SignupForm() {
   const router = useRouter();
-  const { mutateAsync: signup, isPending: signingUp } = useSignupMutation();
-  const { mutateAsync: login } = useLoginMutation();
+  const { signup } = useAuth();
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
   const {
     register,
@@ -25,12 +25,14 @@ export function SignupForm() {
 
   const onSubmit = async (values: SignupFormValues) => {
     try {
-      await signup(values);
-      await login({ email: values.email, password: values.password });
+      setIsSigningUp(true);
+      await signup(values.email, values.password, values.nickname);
       router.push(ROUTES.LIBRARY);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : '회원가입에 실패했습니다.';
       setError('root', { message });
+    } finally {
+      setIsSigningUp(false);
     }
   };
 
@@ -57,14 +59,14 @@ export function SignupForm() {
         error={errors.password?.message}
       />
       {errors.root && (
-        <p className="text-sm text-[#F44336] text-center">{errors.root.message}</p>
+        <p className="text-sm text-error text-center">{errors.root.message}</p>
       )}
-      <Button type="submit" loading={signingUp} fullWidth className="mt-2">
+      <Button type="submit" loading={isSigningUp} fullWidth className="mt-2">
         회원가입
       </Button>
-      <p className="text-center text-sm text-[#6B7684]">
+      <p className="text-center text-sm text-text-gray">
         이미 계정이 있으신가요?{' '}
-        <Link href={ROUTES.LOGIN} className="text-[#3182F6] font-semibold hover:underline">
+        <Link href={ROUTES.LOGIN} className="text-primary font-semibold hover:underline">
           로그인
         </Link>
       </p>
