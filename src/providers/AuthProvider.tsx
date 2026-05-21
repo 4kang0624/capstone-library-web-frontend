@@ -8,9 +8,11 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { useRouter } from 'next/navigation';
 import { authApi } from '@/features/auth/api';
 import { usersApi } from '@/features/users/api';
 import { tokenStorage } from '@/lib/api/token';
+import { ROUTES } from '@/constants/routes';
 import type { User } from '@/features/auth/types';
 
 interface AuthContextValue {
@@ -28,6 +30,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   const refreshUser = useCallback(async () => {
     const token = tokenStorage.getAccessToken();
@@ -46,6 +49,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(false);
     }
   }, []);
+
+  // Handle automatic logout when token refresh fails
+  useEffect(() => {
+    const handleLogout = () => {
+      tokenStorage.clearTokens();
+      setUser(null);
+      router.replace(ROUTES.LOGIN);
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('auth:logout', handleLogout);
+      return () => window.removeEventListener('auth:logout', handleLogout);
+    }
+  }, [router]);
+
+  // Periodically check token expiration and refresh if needed
+  useEffect(() => {
+    if (!tokenStorage.getAccessToken()) return;
+
+    const checkAndRefreshToken = async () => {
+      try {
+        const refreshToken = tokenStorage.getRefreshToken();
+        if (!refreshToken) return;
+
+        // Try to refresh token
+        const response = await authApi.refresh(refreshToken);
+        tokenStorage.setAccessToken(response.access_token);
+      } catch {
+        // Token refresh failed, will be handled by API interceptor
+        tokenStorage.clearTokens();
+        setUser(null);
+        router.replace(ROUTES.LOGIN);
+      }
+    };
+
+    // Check every 5 minutes
+    const interval = setInterval(checkAndRefreshToken, 5 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [router]);
 
   useEffect(() => {
     refreshUser();
