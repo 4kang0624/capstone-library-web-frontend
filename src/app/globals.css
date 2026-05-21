@@ -10,6 +10,7 @@
   --color-bg-light-2: #FAF8F3;
   --color-bg-light-3: #F6F4EF;
   --color-bg-light-4: #F2EFE8;
+  --color-bg-light-5: #EDEAE3; /* selected / strong emphasis */
   
   /* Primary colors */
   --color-primary-blue-1: #B8CDF5; /* light active bg / subtle selected bg */

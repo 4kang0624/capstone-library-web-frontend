@@ -116,8 +116,8 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
           className={cn(
             'flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-300 font-medium',
             myBookCopy
-              ? 'bg-bg-light-3 text-text-gray cursor-not-allowed'
-              : 'bg-bg-light-1 text-primary-blue-3 hover:bg-primary-blue-2 active:scale-95'
+              ? 'bg-bg-light-3 text-text-gray border border-gray cursor-not-allowed'
+              : 'bg-bg-light-1 text-primary-blue-3 border border-primary-blue-3 hover:bg-primary-blue-2 active:scale-95'
           )}
         >
           {myBookCopy ? (

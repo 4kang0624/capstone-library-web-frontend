@@ -8,14 +8,14 @@ import { LoadingState } from '@/components/common/LoadingState';
 import { ROUTES } from '@/constants/routes';
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, isLoggingOut } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!isLoading && !isAuthenticated && !isLoggingOut) {
       router.replace(ROUTES.LOGIN);
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading, isLoggingOut, router]);
 
   if (isLoading) return <LoadingState />;
   if (!isAuthenticated) return null;
