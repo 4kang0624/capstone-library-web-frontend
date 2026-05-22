@@ -70,7 +70,9 @@ export function SearchResultCard({
           <h3 className="font-serif text-lg font-bold text-text-dark line-clamp-2 mb-1">{item.title}</h3>
           <p className="font-serif text-sm text-text-gray line-clamp-1 mb-1">{item.author}</p>
           <p className="text-xs text-text-light line-clamp-1 mb-3">{item.publisher}</p>
+        </div>
 
+        <div>
           {/* Info Box */}
           <div className="bg-bg-light-3 p-3 rounded-lg mb-3 text-xs border border-border space-y-2">
             {item.published_date && (
@@ -87,19 +89,19 @@ export function SearchResultCard({
             )}
             {item.description && <p className="text-text-gray line-clamp-2">{item.description}</p>}
           </div>
-        </div>
 
-        {/* Action Button */}
-        <Button
-          onClick={handleClick}
-          loading={isLoading || loading}
-          variant="contained"
-          size="sm"
-          fullWidth
-          aria-label={actionLabel}
-        >
-          {actionLabel}
-        </Button>
+          {/* Action Button */}
+          <Button
+            onClick={handleClick}
+            loading={isLoading || loading}
+            variant="contained"
+            size="sm"
+            fullWidth
+            aria-label={actionLabel}
+          >
+            {actionLabel}
+          </Button>
+        </div>
       </div>
     </div>
   );

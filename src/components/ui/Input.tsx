@@ -30,7 +30,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           ref={ref}
           className={cn(
             'w-full border border-border rounded-xl px-4 py-3 text-text-dark',
-            'bg-bg-light-1 placeholder:text-text-light outline-none',
+            'bg-bg-light-1 placeholder:text-text-lightlack outline-none',
             'focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all',
             error && 'border-error focus:border-error focus:ring-error/20',
             startAdornment ? 'pl-11' : undefined,

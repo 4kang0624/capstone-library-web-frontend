@@ -25,6 +25,15 @@
   /* Accent colors */
   --color-purple: #9C27B0;
   --color-orange: #FFAC33;
+  --color-burgundy-1: #D9C4C4; /* lightest */
+  --color-burgundy-2: #C4A8A8; /* light */
+  --color-burgundy-3: #8B3A3A; /* base */
+  --color-burgundy-4: #6F2E2E; /* dark */
+  
+  /* Backwards compatibility */
+  --color-burgundy: #8B3A3A;
+  --color-burgundy-dark: #6F2E2E;
+  --color-burgundy-light: #C4A8A8;
   
   /* Text colors */
   --color-text-dark: #191F28;

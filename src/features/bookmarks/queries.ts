@@ -7,3 +7,10 @@ export const useMyBookmarks = () =>
     queryKey: QUERY_KEYS.MY_BOOKMARKS,
     queryFn: bookmarksApi.getMy,
   });
+
+export const useBookmarksByBook = (bookId: number) =>
+  useQuery({
+    queryKey: [QUERY_KEYS.MY_BOOKMARKS, bookId],
+    queryFn: () => bookmarksApi.getByBook(bookId),
+    enabled: bookId > 0,
+  });

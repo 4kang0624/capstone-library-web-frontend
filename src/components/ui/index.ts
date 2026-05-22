@@ -4,3 +4,4 @@ export { Input } from './Input';
 export { Modal } from './Modal';
 export { Badge } from './Badge';
 export { Tabs } from './Tabs';
+export { BookmarkRibbonButton } from './BookmarkRibbon';

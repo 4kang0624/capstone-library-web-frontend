@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { BookCopyCard } from './BookCopyCard';
 import { BookCopyForm } from './BookCopyForm';
 import { Modal } from '@/components/ui/Modal';
@@ -9,13 +10,17 @@ import { EmptyState } from '@/components/common/EmptyState';
 import { useMyBookCopies } from '../queries';
 import { useUpdateBookCopyMutation, useDeleteBookCopyMutation } from '../mutations';
 import type { BookCopy, BookCopyUpdateRequest } from '../types';
+import { useMyBookmarks } from '@/features/bookmarks/queries';
 
 export function MyLibraryList() {
+  const router = useRouter();
   const { data: copies = [] } = useMyBookCopies();
   const { mutateAsync: update, isPending: updating } = useUpdateBookCopyMutation();
   const { mutateAsync: del, isPending: deleting } = useDeleteBookCopyMutation();
   const [editTarget, setEditTarget] = useState<BookCopy | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const { data: bookmarks = [] } = useMyBookmarks();
+  const bookmarksByBookId = new Map(bookmarks.map((b) => [b.book_id, b]));
 
   const handleEdit = async (values: BookCopyUpdateRequest) => {
     if (!editTarget) return;
@@ -35,6 +40,8 @@ export function MyLibraryList() {
             key={copy.id}
             copy={copy}
             showActions
+            bookmark={bookmarksByBookId.get(copy.book_id)}
+            onClick={() => router.push(`/library/${copy.id}`)}
             onEdit={() => setEditTarget(copy)}
             onDelete={() => setDeleteId(copy.id)}
           />

@@ -74,7 +74,8 @@ export function AppHeader() {
                   </button>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <span className="px-4 py-2 bg-primary-blue-2 text-white rounded-xl text-sm font-bold shadow-md">
+                    <span className="px-4 py-2 bg-primary-blue-3 text-white rounded-xl text-sm font-bold shadow-md flex items-center gap-2">
+                      <Wallet className="w-4 h-4" />
                       {account?.slice(0, 6)}...{account?.slice(-4)}
                     </span>
                     <button
