@@ -34,7 +34,13 @@ export const rentalsApi = {
 
   syncOnchain: (
     rentalId: number,
-    data: { tx_hash: string; onchain_rental_id: number; onchain_status?: string },
+    data: {
+      tx_hash: string;
+      onchain_rental_id: number;
+      onchain_status?: string;
+      caller_wallet_address?: string;
+      owner_wallet_address?: string;
+    },
   ) => apiClient.post<Rental>(`/rentals/${rentalId}/sync-onchain`, data).then((r) => r.data),
 
   syncReturnOnchain: (rentalId: number, data: { return_tx_hash: string }) =>

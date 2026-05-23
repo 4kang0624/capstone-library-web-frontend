@@ -12,6 +12,7 @@ import { LoadingState } from '@/components/common/LoadingState';
 import { EmptyState } from '@/components/common/EmptyState';
 import { RentalStatusBadge } from '@/components/common/StatusBadge';
 import { Button } from '@/components/ui/Button';
+import { RentalOnchainPanel } from '@/features/rentals/components/RentalOnchainPanel';
 import { useAuth } from '@/hooks/useAuth';
 import { RentalStatus } from '@/types/enums';
 import { formatDate } from '@/lib/format/date';
@@ -40,6 +41,7 @@ export default function RentalDetailPage({ params }: { params: Promise<{ rentalI
 
   const isBorrower = rental.borrower_user_id === user?.id;
   const isLender = rental.lender_user_id === user?.id;
+  const hasOnchainRental = rental.onchain_rental_id !== undefined && rental.onchain_rental_id !== null;
   const contractExplorerUrl = getExplorerEntityUrl('address', rental.contract_address);
   const txExplorerUrl = getExplorerEntityUrl('tx', rental.tx_hash);
   const returnTxExplorerUrl = getExplorerEntityUrl('tx', rental.return_tx_hash);
@@ -148,17 +150,19 @@ export default function RentalDetailPage({ params }: { params: Promise<{ rentalI
         </dl>
       </div>
 
+      <RentalOnchainPanel rental={rental} isBorrower={isBorrower} isLender={isLender} />
+
       <div className="flex gap-3 flex-wrap">
-        {isLender && rental.rental_status === RentalStatus.REQUESTED && (
+        {isLender && !hasOnchainRental && rental.rental_status === RentalStatus.REQUESTED && (
           <>
             <Button onClick={() => approve(rental.id)} loading={approving}>승인</Button>
             <Button variant="danger" onClick={() => reject(rental.id)} loading={rejecting}>거절</Button>
           </>
         )}
-        {isBorrower && rental.rental_status === RentalStatus.REQUESTED && (
+        {isBorrower && !hasOnchainRental && rental.rental_status === RentalStatus.REQUESTED && (
           <Button variant="outlined" onClick={() => cancel(rental.id)} loading={cancelling}>취소</Button>
         )}
-        {isBorrower && rental.rental_status === RentalStatus.BORROWING && (
+        {isBorrower && !hasOnchainRental && rental.rental_status === RentalStatus.BORROWING && (
           <Button onClick={() => returnRental(rental.id)} loading={returning}>반납 신청</Button>
         )}
       </div>
