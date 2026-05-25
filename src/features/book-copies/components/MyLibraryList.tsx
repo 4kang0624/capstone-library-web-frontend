@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { LibraryBig } from 'lucide-react';
 import { BookCopyCard } from './BookCopyCard';
 import { BookCopyForm } from './BookCopyForm';
 import { Modal } from '@/components/ui/Modal';
@@ -32,7 +33,7 @@ export function MyLibraryList() {
   };
 
   if (copies.length === 0) {
-    return <EmptyState title="등록된 도서가 없습니다" description="도서를 추가하여 서재를 구성하세요" />;
+    return <EmptyState icon={<LibraryBig className="w-14 h-14 text-text-gray/20" />} title="등록된 도서가 없습니다" description="도서를 추가하여 서재를 구성하세요" />;
   }
 
   return (

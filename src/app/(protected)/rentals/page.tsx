@@ -284,7 +284,7 @@ export default function RentalsPage() {
         <LoadingState />
       ) : sorted.length === 0 ? (
         <EmptyState
-          icon={<BookOpen className="w-10 h-10" />}
+          icon={<BookOpen className="w-14 h-14 text-text-gray/20" />}
           title="대여 내역이 없습니다"
           description={
             statusFilter !== 'all'

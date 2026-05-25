@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search } from 'lucide-react';
+import { Search, SearchX } from 'lucide-react';
 import { useSearchBooks } from '@/features/search/queries';
 import { useImportBookMutation } from '@/features/books/mutations';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -64,10 +64,10 @@ export default function SearchPage() {
 
       {isLoading && <LoadingState />}
       {!isLoading && debouncedQuery && books.length === 0 && (
-        <EmptyState title="검색 결과가 없습니다" description="다른 검색어로 시도해보세요" />
+        <EmptyState icon={<SearchX className="w-14 h-14 text-text-gray/20" />} title="검색 결과가 없습니다" description="다른 검색어로 시도해보세요" />
       )}
       {!isLoading && !debouncedQuery && (
-        <EmptyState title="검색어를 입력하세요" description="도서 제목, 저자 이름으로 검색할 수 있습니다" />
+        <EmptyState icon={<Search className="w-14 h-14 text-text-gray/20" />} title="검색어를 입력하세요" description="도서 제목, 저자 이름으로 검색할 수 있습니다" />
       )}
       {books.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
