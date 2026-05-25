@@ -13,6 +13,7 @@
   --color-bg-light-3: #F6F4EF;
   --color-bg-light-4: #F2EFE8;
   --color-bg-light-5: #EDEAE3; /* selected / strong emphasis */
+  --color-bg-light-blue-1: #F3F5F7;
   
   /* Primary colors */
   --color-primary-blue-1: #B8CDF5; /* light active bg / subtle selected bg */
@@ -23,8 +24,8 @@
   --color-primary-blue-6: #12264A; /* deep navy / strong emphasis */
   
   /* Accent colors */
-  --color-purple: #9C27B0;
-  --color-orange: #FFAC33;
+  --color-purple: #8A6FA8; /* muted editorial lavender */
+  --color-orange: #C9853D; /* warm ochre orange */
   --color-burgundy-1: #D9C4C4; /* lightest */
   --color-burgundy-2: #C4A8A8; /* light */
   --color-burgundy-3: #8B3A3A; /* base */
@@ -42,7 +43,7 @@
   --color-text-medium: #4E5968;
   
   /* UI colors */
-  --color-border: #E5E8EB;
+  --color-border: #E7E9EB;
   --color-success: #4CAF50;
   --color-success-light: #66BB6A;
   --color-success-dark: #2E7D32;

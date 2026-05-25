@@ -3,6 +3,7 @@ import type { BookCopyConditionStatus, BookCopyCurrentStatus } from '@/types/enu
 export interface BookCopy {
   id: number;
   owner_user_id: number;
+  owner_nickname?: string;
   book_id: number;
   condition_status: BookCopyConditionStatus;
   is_available_for_rent: boolean;

@@ -25,6 +25,7 @@ import { EmptyState } from '@/components/common/EmptyState';
 import { BookCopyConditionStatusLabel, BookCopyCurrentStatusLabel } from '@/types/enums';
 import { Badge } from '@/components/ui/Badge';
 import { useToast } from '@/hooks/useToast';
+import { parseAxiosError } from '@/lib/api/errors';
 
 export default function LibraryCopyPage() {
   const params = useParams();
@@ -68,7 +69,7 @@ export default function LibraryCopyPage() {
       setShowReadingLogForm(false);
       refetchReadingLogs();
     } catch (error) {
-      addToast('읽기 기록 추가에 실패했습니다.', 'error');
+      addToast(parseAxiosError(error).message, 'error');
       throw error;
     }
   };
@@ -81,7 +82,7 @@ export default function LibraryCopyPage() {
       setEditingReadingLog(null);
       refetchReadingLogs();
     } catch (error) {
-      addToast('읽기 기록 수정에 실패했습니다.', 'error');
+      addToast(parseAxiosError(error).message, 'error');
       throw error;
     }
   };
@@ -92,7 +93,7 @@ export default function LibraryCopyPage() {
       addToast('읽기 기록이 삭제되었습니다.', 'success');
       refetchReadingLogs();
     } catch (error) {
-      addToast('읽기 기록 삭제에 실패했습니다.', 'error');
+      addToast(parseAxiosError(error).message, 'error');
     }
   };
 
@@ -104,7 +105,7 @@ export default function LibraryCopyPage() {
       setEditingBookmark(null);
       refetchBookmarks();
     } catch (error) {
-      addToast('책갈피 저장에 실패했습니다.', 'error');
+      addToast(parseAxiosError(error).message, 'error');
       throw error;
     }
   };
@@ -115,7 +116,7 @@ export default function LibraryCopyPage() {
       addToast('책갈피가 삭제되었습니다.', 'success');
       refetchBookmarks();
     } catch (error) {
-      addToast('책갈피 삭제에 실패했습니다.', 'error');
+      addToast(parseAxiosError(error).message, 'error');
     }
   };
 

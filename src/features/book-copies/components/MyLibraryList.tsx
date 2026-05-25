@@ -11,12 +11,15 @@ import { useMyBookCopies } from '../queries';
 import { useUpdateBookCopyMutation, useDeleteBookCopyMutation } from '../mutations';
 import type { BookCopy, BookCopyUpdateRequest } from '../types';
 import { useMyBookmarks } from '@/features/bookmarks/queries';
+import { useToast } from '@/hooks/useToast';
+import { parseAxiosError } from '@/lib/api/errors';
 
 export function MyLibraryList() {
   const router = useRouter();
   const { data: copies = [] } = useMyBookCopies();
   const { mutateAsync: update, isPending: updating } = useUpdateBookCopyMutation();
   const { mutateAsync: del, isPending: deleting } = useDeleteBookCopyMutation();
+  const { addToast } = useToast();
   const [editTarget, setEditTarget] = useState<BookCopy | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const { data: bookmarks = [] } = useMyBookmarks();
@@ -62,7 +65,17 @@ export function MyLibraryList() {
       <ConfirmDialog
         open={deleteId !== null}
         onClose={() => setDeleteId(null)}
-        onConfirm={async () => { if (deleteId) { await del(deleteId); setDeleteId(null); } }}
+        onConfirm={async () => {
+          if (deleteId) {
+            try {
+              await del(deleteId);
+              setDeleteId(null);
+            } catch (e) {
+              const err = parseAxiosError(e);
+              addToast(err.message, 'error');
+            }
+          }
+        }}
         title="도서 삭제"
         message="정말 이 도서를 서재에서 삭제하시겠습니까?"
         loading={deleting}

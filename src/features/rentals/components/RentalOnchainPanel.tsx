@@ -9,9 +9,10 @@ import { QUERY_KEYS } from '@/constants/queryKeys';
 import { RentalStatus } from '@/types/enums';
 import { formatWei, shortenAddress } from '@/lib/format/eth';
 import { useToast } from '@/hooks/useToast';
+import { parseAxiosError } from '@/lib/api/errors';
 import { useWeb3Context } from '@/providers/Web3Provider';
 import { rentalsApi } from '../api';
-import type { Rental } from '../types';
+import type { PrepareOnchainResponse, Rental } from '../types';
 import {
   acceptEscrowRental,
   cancelEscrowRental,
@@ -76,6 +77,22 @@ const isAddress = (value?: string | null): value is string =>
 const getStatusKey = (status?: OnchainRentalStatus) =>
   status === undefined ? undefined : OnchainRentalStatus[status];
 
+const addWei = (left: string, right: string) => {
+  try {
+    return (BigInt(left || '0') + BigInt(right || '0')).toString();
+  } catch {
+    return '0';
+  }
+};
+
+const resolveWei = (...values: Array<string | null | undefined>) => {
+  const normalized = values
+    .map((value) => value?.trim())
+    .filter((value): value is string => !!value);
+
+  return normalized.find((value) => value !== '0') ?? normalized[0] ?? '0';
+};
+
 const resolveLenderWalletAddress = (
   candidates: Array<string | null | undefined>,
   borrowerWalletAddress?: string | null,
@@ -126,6 +143,7 @@ export function RentalOnchainPanel({
     useWeb3Context();
   const [onchainRental, setOnchainRental] = useState<OnchainRental | null>(null);
   const [claimableBalanceWei, setClaimableBalanceWei] = useState('0');
+  const [preparedOnchain, setPreparedOnchain] = useState<PrepareOnchainResponse | null>(null);
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -137,6 +155,17 @@ export function RentalOnchainPanel({
   const isOwnerWallet = !!accountLower && accountLower === ownerWalletLower;
   const isRenterWallet = !!accountLower && accountLower === renterWalletLower;
   const hasClaimableBalance = BigInt(claimableBalanceWei || '0') > BigInt(0);
+  const plannedDepositWei = resolveWei(
+    rental.deposit_wei,
+    preparedOnchain?.deposit_wei,
+  );
+  const plannedShippingFeeWei = resolveWei(
+    rental.shipping_fee_wei,
+    preparedOnchain?.shipping_fee_wei,
+  );
+  const plannedDueDateUnix = preparedOnchain?.due_date_unix;
+  const plannedDueDate = rental.due_date;
+  const plannedTotalWei = addWei(plannedDepositWei, plannedShippingFeeWei);
 
   const walletNotice = useMemo(() => {
     if (!isConnected) return '스마트 컨트랙트 기능을 사용하려면 지갑을 연결하세요.';
@@ -151,6 +180,9 @@ export function RentalOnchainPanel({
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.RENTAL(rental.id) }),
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.MY_RENTALS }),
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.MY_LENDINGS }),
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BOOK_COPIES }),
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.RENTABLE_COPIES }),
     ]);
   }, [queryClient, rental.id]);
 
@@ -170,8 +202,8 @@ export function RentalOnchainPanel({
       setOnchainRental(nextRental);
       setClaimableBalanceWei(nextClaimableBalance);
     } catch (error) {
-      const message = error instanceof Error ? error.message : '온체인 정보를 불러오지 못했습니다.';
-      setErrorMessage(message);
+      const err = parseAxiosError(error);
+      setErrorMessage(err.message);
     } finally {
       setPendingAction(null);
     }
@@ -185,6 +217,25 @@ export function RentalOnchainPanel({
 
     return () => window.clearTimeout(timer);
   }, [isConnected, onchainRentalId, refreshOnchain]);
+
+  useEffect(() => {
+    if (onchainRentalId || rental.rental_status !== RentalStatus.APPROVED) {
+      return;
+    }
+
+    let ignore = false;
+    rentalsApi.prepareOnchain(rental.id)
+      .then((prepared) => {
+        if (!ignore) setPreparedOnchain(prepared);
+      })
+      .catch(() => {
+        if (!ignore) setPreparedOnchain(null);
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, [onchainRentalId, rental.id, rental.rental_status]);
 
   const syncTransaction = useCallback(
     async (
@@ -221,9 +272,9 @@ export function RentalOnchainPanel({
         await Promise.all([refreshWallet(), refreshOnchain(), invalidateRental()]);
         addToast(successMessage, 'success');
       } catch (error) {
-        const message = error instanceof Error ? error.message : '온체인 요청 처리에 실패했습니다.';
-        setErrorMessage(message);
-        addToast(message, 'error');
+        const err = parseAxiosError(error);
+        setErrorMessage(err.message);
+        addToast(err.message, 'error');
       } finally {
         setPendingAction(null);
       }
@@ -254,9 +305,20 @@ export function RentalOnchainPanel({
         const result = await createEscrowRental({
           bookId: prepared.book_copy_id,
           owner,
-          depositWei: prepared.deposit_wei,
-          shippingFeeWei: prepared.shipping_fee_wei,
-          dueDateUnix: getDueDateUnix(rental, prepared.due_date_unix),
+          depositWei: resolveWei(
+            plannedDepositWei,
+            latestRental.deposit_wei,
+            prepared.deposit_wei,
+          ),
+          shippingFeeWei: resolveWei(
+            plannedShippingFeeWei,
+            latestRental.shipping_fee_wei,
+            prepared.shipping_fee_wei,
+          ),
+          dueDateUnix: getDueDateUnix(
+            plannedDueDate ? { ...rental, due_date: plannedDueDate } : latestRental,
+            prepared.due_date_unix,
+          ),
         });
 
         if (!result.onchainRentalId) {
@@ -391,7 +453,13 @@ export function RentalOnchainPanel({
     }
 
     if (!onchainRentalId) {
-      if (!isBorrower || TERMINAL_BACKEND_STATUSES.has(rental.rental_status)) return null;
+      if (
+        !isBorrower ||
+        rental.rental_status !== RentalStatus.APPROVED ||
+        TERMINAL_BACKEND_STATUSES.has(rental.rental_status)
+      ) {
+        return null;
+      }
       return (
         <Button onClick={handleCreate} loading={pendingAction === 'create'}>
           온체인 대여 생성
@@ -532,10 +600,10 @@ export function RentalOnchainPanel({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-border p-6 mb-6">
+    <div className="bg-editorial-panel-soft rounded-2xl border border-editorial-line p-6 mb-6 shadow-[0_12px_30px_rgba(36,32,24,0.06)]">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-5">
         <div>
-          <h2 className="text-lg font-bold text-text-dark">스마트 컨트랙트</h2>
+          <h2 className="text-lg font-bold text-editorial-ink">스마트 컨트랙트</h2>
           <p className="text-sm text-text-gray mt-1">
             Hardhat localhost의 BookRentalEscrow와 동기화합니다.
           </p>
@@ -574,6 +642,32 @@ export function RentalOnchainPanel({
               : OnchainRentalStatusLabel[onchainStatus]}
           </dd>
         </div>
+        {!onchainRentalId && rental.rental_status === RentalStatus.APPROVED && (
+          <>
+            <div>
+              <dt className="text-text-gray">생성 예정 보증금</dt>
+              <dd className="font-semibold text-text-dark">{formatWei(plannedDepositWei)}</dd>
+            </div>
+            <div>
+              <dt className="text-text-gray">생성 예정 배송비</dt>
+              <dd className="font-semibold text-text-dark">{formatWei(plannedShippingFeeWei)}</dd>
+            </div>
+            <div>
+              <dt className="text-text-gray">생성 예정 총액</dt>
+              <dd className="font-semibold text-text-dark">{formatWei(plannedTotalWei)}</dd>
+            </div>
+            <div>
+              <dt className="text-text-gray">반납 예정일</dt>
+              <dd className="font-semibold text-text-dark">
+                {plannedDueDate
+                  ? new Intl.DateTimeFormat('ko-KR').format(new Date(plannedDueDate))
+                  : plannedDueDateUnix
+                    ? formatUnixDate(plannedDueDateUnix)
+                  : '없음'}
+              </dd>
+            </div>
+          </>
+        )}
         {onchainRental && (
           <>
             <div>

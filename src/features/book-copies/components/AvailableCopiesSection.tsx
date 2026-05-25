@@ -1,12 +1,14 @@
 'use client';
 
-import { MapPin } from 'lucide-react';
 import type { BookCopy } from '../types';
-import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { BookCopyConditionStatusLabel } from '@/types/enums';
 import type { BookCopyConditionStatus } from '@/types/enums';
 import { cn } from '@/lib/utils/cn';
+import { Package, User } from 'lucide-react';
+
+const getOwnerName = (copy: BookCopy) =>
+  copy.owner_nickname || '알 수 없는 소유자';
 
 interface AvailableCopiesSectionProps {
   copies: BookCopy[];
@@ -70,40 +72,35 @@ export function AvailableCopiesSection({
                 : 'border-border hover:border-primary-blue-2 hover:shadow-sm'
             )}
           >
-            <div className="space-y-4">
-              {/* Owner Info */}
-              <div className="flex justify-between items-start">
-                <div className="flex-1">
-                  {/* Owner Name - would come from owner data */}
-                  <p className="font-bold text-lg text-text-dark">
-                    {/* Mock owner name - replace with actual owner data from API */}
-                    Owner {copy.owner_user_id}
+            {/* Owner Info */}
+            <div className="flex justify-between items-start mb-4">
+              <div className="flex-1">
+                <p className="font-bold text-lg text-text-dark flex items-center gap-1">
+                  <User className="w-4 h-4 inline-block text-gray" />
+                  {getOwnerName(copy)}
                   </p>
-
-                  {/* Location Info - would come from owner profile */}
-                  <div className="flex items-center gap-2 text-sm text-text-gray mt-2">
-                    <MapPin className="w-4 h-4" />
-                    <span>위치 정보 로드 중</span>
-                    <span>•</span>
-                    <span className="text-primary-blue-3 font-semibold">거리 계산 중</span>
-                  </div>
-                </div>
-
-                {/* Condition Badge */}
-                <Badge variant={getConditionBadgeVariant(copy.condition_status)}>
-                  상태: {BookCopyConditionStatusLabel[copy.condition_status]}
-                </Badge>
+                <p className="text-sm text-text-gray mt-1 flex items-center gap-1">
+                  <Package className="w-4 h-4 inline-block text-gray" />
+                  배송 대여 · 소유자 승인 필요
+                </p>
               </div>
 
-              {/* Pricing Info */}
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-text-gray">일일 대여료:</span>
-                  <span className="font-bold text-text-dark">가격 정보 로드 중</span>
+              {/* Condition Badge */}
+              <Badge variant={getConditionBadgeVariant(copy.condition_status)}>
+                상태: {BookCopyConditionStatusLabel[copy.condition_status]}
+              </Badge>
+            </div>
+
+            {/* Pricing Info */}
+            <div className="border-t border-border/30 pt-4">
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <p className="text-xs text-text-gray mb-1">보증금</p>
+                  <p className="text-sm font-bold text-text-dark">승인 후 확정</p>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-text-gray">보증금:</span>
-                  <span className="font-bold text-text-dark">가격 정보 로드 중</span>
+                <div>
+                  <p className="text-xs text-text-gray mb-1">배송료</p>
+                  <p className="text-sm font-bold text-text-dark">승인 후 확정</p>
                 </div>
               </div>
             </div>

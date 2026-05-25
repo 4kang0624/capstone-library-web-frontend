@@ -47,6 +47,12 @@ export interface RentalCreateRequest {
   request_message?: string;
 }
 
+export interface RentalApproveRequest {
+  deposit_wei: string;
+  shipping_fee_wei: string;
+  due_date: string;
+}
+
 export interface RentalImageResponse {
   id: number;
   rental_id: number;

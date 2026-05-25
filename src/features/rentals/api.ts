@@ -1,5 +1,11 @@
 import { apiClient } from '@/lib/api/client';
-import type { Rental, RentalCreateRequest, PrepareOnchainResponse, RentalImageResponse } from './types';
+import type {
+  Rental,
+  RentalApproveRequest,
+  RentalCreateRequest,
+  PrepareOnchainResponse,
+  RentalImageResponse,
+} from './types';
 
 export const rentalsApi = {
   create: (data: RentalCreateRequest) =>
@@ -11,8 +17,15 @@ export const rentalsApi = {
   getById: (rentalId: number) =>
     apiClient.get<Rental>(`/rentals/${rentalId}`).then((r) => r.data),
 
-  approve: (rentalId: number) =>
-    apiClient.post<Rental>(`/rentals/${rentalId}/approve`, {}).then((r) => r.data),
+  approve: (rentalId: number, data: RentalApproveRequest) =>
+    apiClient
+      .post<Rental>(`/rentals/${rentalId}/approve`, {
+        ...data,
+        depositWei: data.deposit_wei,
+        shippingFeeWei: data.shipping_fee_wei,
+        dueDate: data.due_date,
+      })
+      .then((r) => r.data),
 
   reject: (rentalId: number, rejectReason?: string) =>
     apiClient

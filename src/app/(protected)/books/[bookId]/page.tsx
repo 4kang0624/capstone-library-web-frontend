@@ -2,7 +2,7 @@
 
 import { use } from 'react';
 import Image from 'next/image';
-import { ArrowLeft, Heart, LibraryBig, Check, MapPin, Loader } from 'lucide-react';
+import { ArrowLeft, Heart, LibraryBig, Check, Loader } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useBook } from '@/features/books/queries';
 import { useBookCopiesByBook, useMyBookCopies } from '@/features/book-copies/queries';
@@ -14,13 +14,13 @@ import { useCreateBookCopyMutation } from '@/features/book-copies/mutations';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { RentalModal } from '@/features/book-copies/components';
+import { AvailableCopiesSection, RentalModal } from '@/features/book-copies/components';
 import { useCreateRentalMutation } from '@/features/rentals/mutations';
-import { DeliveryMethod, BookCopyConditionStatus, BookCopyConditionStatusLabel, BookCopyCurrentStatus } from '@/types/enums';
+import { DeliveryMethod, BookCopyConditionStatus, BookCopyCurrentStatus } from '@/types/enums';
 import type { BookCopy } from '@/features/book-copies/types';
 import { cn } from '@/lib/utils/cn';
 import { useToast } from '@/hooks/useToast';
+import { parseAxiosError } from '@/lib/api/errors';
 
 export default function BookDetailPage({ params }: { params: Promise<{ bookId: string }> }) {
   const router = useRouter();
@@ -67,42 +67,33 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
       addToast('내 서재에 도서를 추가했습니다', 'success');
     } catch (error) {
       console.error('Failed to add book to library:', error);
-      addToast('도서 추가에 실패했습니다. 다시 시도해주세요.', 'error');
+      addToast(parseAxiosError(error).message, 'error');
     }
   };
 
   const handleSelectCopy = (copy: BookCopy) => {
     setSelectedCopy(copy);
-    setRentalModalOpen(true);
   };
 
   const handleRentalConfirm = async (rentalDays: number, shippingAddress: string) => {
     if (!selectedCopy) return;
     try {
+      const dueDate = new Date();
+      dueDate.setDate(dueDate.getDate() + rentalDays);
+      const dueDateStr = dueDate.toISOString().split('T')[0];
       await createRental({
         book_copy_id: selectedCopy.id,
         delivery_method: DeliveryMethod.PARCEL,
         shipping_address: shippingAddress,
         deposit_wei: '0',
         shipping_fee_wei: '0',
+        due_date: dueDateStr,
       });
       setSelectedCopy(null);
       setRentalModalOpen(false);
     } catch (error) {
       console.error('Failed to create rental:', error);
-    }
-  };
-
-  const getConditionBadgeVariant = (condition: string) => {
-    switch (condition) {
-      case 'GOOD':
-        return 'success';
-      case 'FAIR':
-        return 'warning';
-      case 'POOR':
-        return 'error';
-      default:
-        return 'default';
+      addToast(parseAxiosError(error).message, 'error');
     }
   };
 
@@ -197,60 +188,12 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
 
           {/* Available Copies Card */}
           <Card padding="lg">
-            <h2 className="font-semibold text-lg text-text-dark mb-4">
-              대여 가능한 도서 ({rentableCopies.length}권)
-            </h2>
-
-            {copiesLoading ? (
-              <div className="text-center py-8 text-text-light">로드 중...</div>
-            ) : rentableCopies.length === 0 ? (
-              <div className="text-center py-8 text-text-light">현재 대여 가능한 사본이 없습니다</div>
-            ) : (
-              <div className="space-y-3">
-                {rentableCopies.map((copy) => (
-                  <div
-                    key={copy.id}
-                    onClick={() => handleSelectCopy(copy)}
-                    className={cn(
-                      'p-5 border-2 rounded-2xl cursor-pointer transition-all',
-                      selectedCopy?.id === copy.id
-                        ? 'border-primary-blue-3 bg-primary-blue-1/10 shadow-md'
-                        : 'border-border hover:border-primary-blue-2 hover:shadow-sm'
-                    )}
-                  >
-                    <div className="space-y-4">
-                      {/* Owner and Condition */}
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <p className="font-bold text-lg text-text-dark">Owner {copy.owner_user_id}</p>
-                          <div className="flex items-center gap-2 text-sm text-text-gray mt-2">
-                            <MapPin className="w-4 h-4" />
-                            <span>위치 정보 로드 중</span>
-                            <span>•</span>
-                            <span className="text-primary-blue-3 font-semibold">거리 계산 중</span>
-                          </div>
-                        </div>
-                        <Badge variant={getConditionBadgeVariant(copy.condition_status)}>
-                          상태: {BookCopyConditionStatusLabel[copy.condition_status as keyof typeof BookCopyConditionStatusLabel]}
-                        </Badge>
-                      </div>
-
-                      {/* Pricing */}
-                      <div className="grid grid-cols-2 gap-4 text-sm pt-2 border-t border-border">
-                        <div className="flex justify-between">
-                          <span className="text-text-gray">일일 대여료:</span>
-                          <span className="font-bold text-text-dark">가격 정보 로드</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-text-gray">보증금:</span>
-                          <span className="font-bold text-text-dark">가격 정보 로드</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <AvailableCopiesSection
+              copies={rentableCopies}
+              selectedCopy={selectedCopy}
+              onSelectCopy={handleSelectCopy}
+              loading={copiesLoading}
+            />
           </Card>
 
           {/* Rental Button */}
@@ -260,7 +203,8 @@ export default function BookDetailPage({ params }: { params: Promise<{ bookId: s
                 if (selectedCopy) {
                   setRentalModalOpen(true);
                 } else if (rentableCopies.length > 0) {
-                  handleSelectCopy(rentableCopies[0]);
+                  setSelectedCopy(rentableCopies[0]);
+                  setRentalModalOpen(true);
                 }
               }}
               size="lg"
