@@ -1,25 +1,30 @@
-'use client';
-import { useAuth } from '@/hooks/useAuth';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { UserRole } from '@/types/enums';
+import Link from 'next/link';
+import { AlertTriangle, Users } from 'lucide-react';
 import { PageHeader } from '@/components/common/PageHeader';
+import { ROUTES } from '@/constants/routes';
 
 export default function AdminPage() {
-  const { user, isAuthenticated } = useAuth();
-  const router = useRouter();
-  useEffect(() => {
-    if (isAuthenticated && user?.role !== UserRole.ADMIN) {
-      router.replace('/library');
-    }
-  }, [isAuthenticated, user, router]);
-
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <PageHeader title="관리자 패널" description="사용자 및 도서 관리" />
-      <div className="bg-white rounded-2xl border border-border p-6">
-        <p className="text-text-gray">관리자 기능이 여기에 표시됩니다.</p>
+    <>
+      <PageHeader title="관리자 패널" description="회원 상태와 대여 분쟁을 관리합니다." />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Link
+          href={ROUTES.ADMIN_USERS}
+          className="rounded-lg border border-border bg-bg-light-1 p-5 transition-colors hover:bg-bg-light-2"
+        >
+          <Users className="mb-4 h-6 w-6 text-primary-blue-3" />
+          <h2 className="text-lg font-bold text-text-dark">회원 관리</h2>
+          <p className="mt-2 text-sm text-text-gray">회원 목록과 상세 정보, 상태를 확인합니다.</p>
+        </Link>
+        <Link
+          href={ROUTES.ADMIN_DISPUTES}
+          className="rounded-lg border border-border bg-bg-light-1 p-5 transition-colors hover:bg-bg-light-2"
+        >
+          <AlertTriangle className="mb-4 h-6 w-6 text-error" />
+          <h2 className="text-lg font-bold text-text-dark">분쟁 관리</h2>
+          <p className="mt-2 text-sm text-text-gray">DISPUTED 상태의 대여를 확인하고 처리합니다.</p>
+        </Link>
       </div>
-    </div>
+    </>
   );
 }

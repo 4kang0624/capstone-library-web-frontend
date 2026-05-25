@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { Book, Search, FileText, Heart, User, Wallet, LogOut, Menu, X } from 'lucide-react';
+import { Book, Search, FileText, Heart, User, Wallet, LogOut, Menu, X, ShieldCheck } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { useWeb3Context } from '@/providers/Web3Provider';
+import { UserRole } from '@/types/enums';
 
 const NAV_LINKS = [
   { path: ROUTES.SEARCH, label: '도서 검색', icon: Search },
@@ -17,12 +18,15 @@ const NAV_LINKS = [
 
 export function AppHeader() {
   const pathname = usePathname();
-  const router = useRouter();
   const { user, isAuthenticated, logout } = useAuth();
   const { account, isConnected, connectWallet, disconnectWallet } = useWeb3Context();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isActive = (path: string) => pathname.startsWith(path);
+  const navLinks =
+    user?.role === UserRole.ADMIN
+      ? [...NAV_LINKS, { path: ROUTES.ADMIN, label: '관리자', icon: ShieldCheck }]
+      : NAV_LINKS;
 
   const handleLogout = async () => {
     await logout();
@@ -43,7 +47,7 @@ export function AppHeader() {
           {/* Desktop Nav */}
           {isAuthenticated && (
             <nav className="hidden md:flex items-center gap-1">
-              {NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   href={link.path}
@@ -133,7 +137,7 @@ export function AppHeader() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-border bg-white px-4 py-4 space-y-2">
           {isAuthenticated &&
-            NAV_LINKS.map((link) => (
+            navLinks.map((link) => (
               <Link
                 key={link.path}
                 href={link.path}

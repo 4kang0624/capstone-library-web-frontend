@@ -23,6 +23,7 @@ const SELECTORS = {
   requestReturn: '0x58676582',
   confirmReturnAndComplete: '0xad0d85ee',
   markDisputed: '0x314b6835',
+  resolveDispute: '0x3fabe74f',
   withdraw: '0x3ccfd60b',
   getRental: '0x652bd29e',
   claimableBalanceOf: '0x9c3ee244',
@@ -299,6 +300,23 @@ export async function markEscrowDisputed(rentalId: number): Promise<EscrowTransa
   return {
     ...(await runEscrowTransaction(encodeCall(SELECTORS.markDisputed, [encodeUint(rentalId)]))),
     status: OnchainRentalStatus.Disputed,
+  };
+}
+
+export async function resolveEscrowDispute(
+  rentalId: number,
+  ownerAmountWei: string,
+  renterAmountWei: string,
+): Promise<EscrowTransactionResult> {
+  return {
+    ...(await runEscrowTransaction(
+      encodeCall(SELECTORS.resolveDispute, [
+        encodeUint(rentalId),
+        encodeUint(ownerAmountWei),
+        encodeUint(renterAmountWei),
+      ]),
+    )),
+    status: OnchainRentalStatus.Completed,
   };
 }
 

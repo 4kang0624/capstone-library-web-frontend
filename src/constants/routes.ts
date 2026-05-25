@@ -19,4 +19,7 @@ export const ROUTES = {
   // Admin
   ADMIN: '/admin',
   ADMIN_USERS: '/admin/users',
+  ADMIN_USER_DETAIL: (userId: number | string) => `/admin/users/${userId}`,
+  ADMIN_DISPUTES: '/admin/disputes',
+  ADMIN_DISPUTE_DETAIL: (rentalId: number | string) => `/admin/disputes/${rentalId}`,
 } as const;

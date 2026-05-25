@@ -18,6 +18,12 @@ export const QUERY_KEYS = {
   MY_LENDINGS: ['rentals', 'lendings'] as const,
   RENTAL: (id: number) => ['rentals', id] as const,
 
+  // Admin
+  ADMIN_USERS: ['admin', 'users'] as const,
+  ADMIN_USER: (id: number) => ['admin', 'users', id] as const,
+  ADMIN_DISPUTES: ['admin', 'rentals', 'disputes'] as const,
+  ADMIN_DISPUTE: (id: number) => ['admin', 'rentals', 'disputes', id] as const,
+
   // Wishlists
   MY_WISHLISTS: ['wishlists', 'me'] as const,
 

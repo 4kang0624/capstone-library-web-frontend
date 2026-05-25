@@ -1,6 +1,7 @@
 import { apiClient } from '@/lib/api/client';
 import type { User } from '@/features/auth/types';
-import type { ChangeUserStatusRequest } from './types';
+import type { Rental } from '@/features/rentals/types';
+import type { AdminDisputeResolveRequest, ChangeUserStatusRequest } from './types';
 
 export const adminApi = {
   listUsers: () =>
@@ -11,4 +12,15 @@ export const adminApi = {
 
   changeUserStatus: (userId: number, data: ChangeUserStatusRequest) =>
     apiClient.patch<User>(`/admin/users/${userId}/status`, data).then((r) => r.data),
+
+  listDisputes: () =>
+    apiClient.get<Rental[]>('/admin/rentals/disputes').then((r) => r.data),
+
+  getDisputeById: (rentalId: number) =>
+    apiClient.get<Rental>(`/admin/rentals/disputes/${rentalId}`).then((r) => r.data),
+
+  resolveDispute: (rentalId: number, data: AdminDisputeResolveRequest) =>
+    apiClient
+      .patch<Rental>(`/admin/rentals/disputes/${rentalId}/resolve`, data)
+      .then((r) => r.data),
 };
