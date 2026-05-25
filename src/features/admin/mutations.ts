@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { adminApi } from './api';
-import type { AdminDisputeResolveRequest, ChangeUserStatusRequest } from './types';
+import type { AdminDisputeResolveRequest, AdminEscrowDbStatusRequest, ChangeUserStatusRequest } from './types';
 
 export const useChangeUserStatusMutation = () => {
   const qc = useQueryClient();
@@ -31,6 +31,20 @@ export const useResolveAdminDisputeMutation = () => {
       qc.invalidateQueries({ queryKey: QUERY_KEYS.MY_LENDINGS });
       qc.invalidateQueries({ queryKey: QUERY_KEYS.BOOK_COPIES });
       qc.invalidateQueries({ queryKey: QUERY_KEYS.RENTABLE_COPIES });
+    },
+  });
+};
+
+export const useUpdateEscrowDbStatusMutation = () => {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ rentalId, data }: { rentalId: number; data: AdminEscrowDbStatusRequest }) =>
+      adminApi.updateEscrowDbStatus(rentalId, data),
+    onSuccess: (data, variables) => {
+      qc.setQueryData(QUERY_KEYS.ADMIN_ESCROW(variables.rentalId), data);
+      qc.setQueryData(QUERY_KEYS.RENTAL(variables.rentalId), data);
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.ADMIN_ESCROWS });
     },
   });
 };

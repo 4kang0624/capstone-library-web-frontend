@@ -14,6 +14,7 @@ import { usersApi } from '@/features/users/api';
 import { tokenStorage } from '@/lib/api/token';
 import { ROUTES } from '@/constants/routes';
 import type { User } from '@/features/auth/types';
+import { UserStatus } from '@/types/enums';
 
 interface AuthContextValue {
   user: User | null;
@@ -98,6 +99,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const tokens = await authApi.login({ email, password });
     tokenStorage.setTokens(tokens.access_token, tokens.refresh_token);
     const me = await usersApi.getMe();
+    if (me.status === UserStatus.SUSPENDED) {
+      tokenStorage.clearTokens();
+      throw new Error('정지된 계정입니다. 관리자에게 문의하세요.');
+    }
+    if (me.status === UserStatus.DELETED) {
+      tokenStorage.clearTokens();
+      throw new Error('탈퇴한 계정입니다.');
+    }
     setUser(me);
   }, []);
 

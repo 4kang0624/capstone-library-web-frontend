@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { AlertTriangle, ShieldCheck, Users } from 'lucide-react';
+import { AlertTriangle, Coins, ShieldCheck, Users } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { UserRole } from '@/types/enums';
@@ -12,6 +12,7 @@ const ADMIN_LINKS = [
   { href: ROUTES.ADMIN, label: '관리자 홈', icon: ShieldCheck },
   { href: ROUTES.ADMIN_USERS, label: '회원 관리', icon: Users },
   { href: ROUTES.ADMIN_DISPUTES, label: '분쟁 관리', icon: AlertTriangle },
+  { href: ROUTES.ADMIN_ESCROWS, label: '에스크로 관리', icon: Coins },
 ];
 
 export function AdminNav() {

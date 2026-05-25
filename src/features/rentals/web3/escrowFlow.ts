@@ -27,8 +27,11 @@ const SELECTORS = {
   withdraw: '0x3ccfd60b',
   getRental: '0x652bd29e',
   claimableBalanceOf: '0x9c3ee244',
+  hasRole: '0x91d14854',
 };
 
+const ADMIN_ROLE =
+  'a49807205ce4d355092ef5a8a18f56e8913cf4a201fbe287825b095693c21775';
 const RENTAL_CREATED_TOPIC =
   '0x15496caf0bd1e3d9187db2077236bb6d96aa36fa0de0d49f95896f08b0cba06c';
 
@@ -96,6 +99,12 @@ function encodeUint(value: string | number | bigint): string {
 function encodeAddress(address: string): string {
   if (!isAddress(address)) throw new Error('올바른 지갑 주소가 아닙니다.');
   return stripHexPrefix(address).padStart(UINT_WORD_LENGTH, '0');
+}
+
+function encodeBytes32(value: string): string {
+  const clean = stripHexPrefix(value);
+  if (!/^[0-9a-fA-F]{64}$/.test(clean)) throw new Error('bytes32 값이 올바르지 않습니다.');
+  return clean;
 }
 
 function encodeCall(selector: string, encodedArgs: string[] = []): string {
@@ -356,4 +365,13 @@ export async function getEscrowClaimableBalance(account: string): Promise<string
   );
   const [balanceWord] = splitWords(result);
   return decodeUint(balanceWord ?? '0').toString();
+}
+
+export async function hasEscrowAdminRole(account: string): Promise<boolean> {
+  await switchToConfiguredChain();
+  const result = await callContract(
+    encodeCall(SELECTORS.hasRole, [encodeBytes32(ADMIN_ROLE), encodeAddress(account)]),
+  );
+  const [hasRoleWord] = splitWords(result);
+  return decodeUint(hasRoleWord ?? '0') === BigInt(1);
 }

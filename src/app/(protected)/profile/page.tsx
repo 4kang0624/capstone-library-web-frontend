@@ -6,6 +6,7 @@ import { useWeb3Context } from '@/providers/Web3Provider';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { shortenAddress } from '@/lib/format/eth';
 import { useMutation } from '@tanstack/react-query';
 import { usersApi } from '@/features/users/api';
@@ -22,12 +23,13 @@ const passwordSchema = z.object({
 });
 
 export default function ProfilePage() {
-  const { user, refreshUser } = useAuth();
+  const { user, refreshUser, logout } = useAuth();
   const { account, isConnected, connectWallet, disconnectWallet } = useWeb3Context();
   const { addToast } = useToast();
   const [copied, setCopied] = useState(false);
   const [showCurrentPw, setShowCurrentPw] = useState(false);
   const [showNewPw, setShowNewPw] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const { mutateAsync: updateProfile, isPending: saving } = useMutation({
     mutationFn: usersApi.updateMe,
@@ -44,6 +46,14 @@ export default function ProfilePage() {
       addToast('비밀번호가 변경되었습니다.', 'success');
     },
     onError: () => addToast('비밀번호 변경에 실패했습니다.', 'error'),
+  });
+  const { mutateAsync: deleteAccount, isPending: deleting } = useMutation({
+    mutationFn: usersApi.deleteMe,
+    onSuccess: () => {
+      addToast('회원 탈퇴가 완료되었습니다.', 'success');
+      logout();
+    },
+    onError: () => addToast('회원 탈퇴에 실패했습니다.', 'error'),
   });
 
   const profileForm = useForm({ resolver: zodResolver(profileSchema), defaultValues: { nickname: user?.nickname ?? '' } });
@@ -146,6 +156,28 @@ export default function ProfilePage() {
           <Button type="submit" loading={changingPw} size="sm" className="self-end">변경</Button>
         </form>
       </div>
+
+      {/* Account Deletion */}
+      <div className="bg-bg-light-2 rounded-2xl border border-error/30 p-6 mt-4">
+        <h2 className="text-lg font-bold text-error mb-2">회원 탈퇴</h2>
+        <p className="text-sm text-text-gray mb-4">
+          탈퇴 시 계정 및 모든 데이터가 삭제되며 복구할 수 없습니다.
+        </p>
+        <Button variant="danger" size="sm" onClick={() => setShowDeleteConfirm(true)}>
+          탈퇴하기
+        </Button>
+      </div>
+
+      <ConfirmDialog
+        open={showDeleteConfirm}
+        onClose={() => setShowDeleteConfirm(false)}
+        onConfirm={() => deleteAccount()}
+        title="회원 탈퇴"
+        message="정말로 탈퇴하시겠습니까? 계정 및 모든 데이터가 삭제되며 복구할 수 없습니다."
+        confirmLabel="탈퇴"
+        loading={deleting}
+        danger
+      />
     </div>
   );
 }

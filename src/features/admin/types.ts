@@ -9,3 +9,8 @@ export interface AdminDisputeResolveRequest {
   return_tx_hash?: string;
   onchain_status?: string;
 }
+
+export interface AdminEscrowDbStatusRequest {
+  rental_status: RentalStatus;
+  onchain_status?: string;
+}

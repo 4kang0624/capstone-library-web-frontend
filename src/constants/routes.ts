@@ -22,4 +22,6 @@ export const ROUTES = {
   ADMIN_USER_DETAIL: (userId: number | string) => `/admin/users/${userId}`,
   ADMIN_DISPUTES: '/admin/disputes',
   ADMIN_DISPUTE_DETAIL: (rentalId: number | string) => `/admin/disputes/${rentalId}`,
+  ADMIN_ESCROWS: '/admin/escrows',
+  ADMIN_ESCROW_DETAIL: (rentalId: number | string) => `/admin/escrows/${rentalId}`,
 } as const;

@@ -27,3 +27,16 @@ export const useAdminDispute = (rentalId: number) =>
     queryFn: () => adminApi.getDisputeById(rentalId),
     enabled: !!rentalId,
   });
+
+export const useAdminEscrows = () =>
+  useQuery({
+    queryKey: QUERY_KEYS.ADMIN_ESCROWS,
+    queryFn: adminApi.listEscrows,
+  });
+
+export const useAdminEscrow = (rentalId: number) =>
+  useQuery({
+    queryKey: QUERY_KEYS.ADMIN_ESCROW(rentalId),
+    queryFn: () => adminApi.getEscrowById(rentalId),
+    enabled: !!rentalId,
+  });
