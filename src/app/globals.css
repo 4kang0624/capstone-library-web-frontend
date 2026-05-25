@@ -7,7 +7,7 @@
 }
 
 @theme inline {
-  /* Background colors */
+  /* ===== Background colors ===== */
   --color-bg-light-1: #FCFAF6;
   --color-bg-light-2: #FAF8F3;
   --color-bg-light-3: #F6F4EF;
@@ -15,44 +15,69 @@
   --color-bg-light-5: #EDEAE3; /* selected / strong emphasis */
   --color-bg-light-blue-1: #F3F5F7;
   
-  /* Primary colors */
+  /* ===== Primary colors ===== */
+  /* Primary Blue */
   --color-primary-blue-1: #B8CDF5; /* light active bg / subtle selected bg */
   --color-primary-blue-2: #7FA1E3; /* stronger active bg / soft filled state */
   --color-primary-blue-3: #4E76C9; /* base primary */
   --color-primary-blue-4: #3F66B2; /* hover */
   --color-primary-blue-5: #31579E; /* pressed / strong emphasis */
   --color-primary-blue-6: #12264A; /* deep navy / strong emphasis */
+
+ /* Accent Gold / Ochre */
+  --color-accent-gold-1: #F6E8C7; /* highlighter bg */
+  --color-accent-gold-2: #EFD187; /* stronger highlighter */
+  --color-accent-gold-3: #C7953E; /* base accent */
+  --color-accent-gold-4: #A67832; /* hover / strong */
+  --color-accent-gold-5: #72501F; /* deep emphasis */
   
-  /* Accent colors */
+
+  /* ===== Accent colors ===== */
   --color-purple: #8A6FA8; /* muted editorial lavender */
-  --color-orange: #C9853D; /* warm ochre orange */
+  --color-orange: #C7953E; /* warm ochre orange */
   --color-burgundy-1: #D9C4C4; /* lightest */
   --color-burgundy-2: #C4A8A8; /* light */
   --color-burgundy-3: #8B3A3A; /* base */
   --color-burgundy-4: #6F2E2E; /* dark */
   
-  /* Backwards compatibility */
+
+  /* ===== Backwards compatibility ===== */
   --color-burgundy: #8B3A3A;
   --color-burgundy-dark: #6F2E2E;
   --color-burgundy-light: #C4A8A8;
   
-  /* Text colors */
+
+  /* ===== Text colors ===== */
   --color-text-dark: #191F28;
   --color-text-gray: #6B7684;
   --color-text-light: #8B95A1;
   --color-text-medium: #4E5968;
   
-  /* UI colors */
-  --color-border: #E7E9EB;
-  --color-success: #4CAF50;
-  --color-success-light: #66BB6A;
-  --color-success-dark: #2E7D32;
-  --color-warning: #FF9800;
-  --color-warning-dark: #E65100;
-  --color-error: #F44336;
-  --color-error-dark: #C62828;
-  --color-info: #2196F3;
-  --color-info-dark: #1565C0;
+
+  /* ===== UI colors ===== */
+  --color-border: #272728;
+  --color-border-light: #DBDEE2;
+  --color-border-dark: #272728;
+
+  /* Success */
+  --color-success: #5F8A6B;
+  --color-success-light: #DDE8DD;
+  --color-success-dark: #3F6B4A;
+
+  /* Warning */
+  --color-warning: #DBB455;
+  --color-warning-light: #F3E6BF;
+  --color-warning-dark: #8A6424;
+
+  /* Error */
+  --color-error: #A95349;
+  --color-error-light: #E8D2CE;
+  --color-error-dark: #7F3933;
+
+  /* Info */
+  --color-info: #4E76C9;
+  --color-info-light: #DDE6F7;
+  --color-info-dark: #31579E;
   
   /* Foreground */
   --color-foreground: var(--foreground);

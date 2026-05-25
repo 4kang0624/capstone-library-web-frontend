@@ -1,8 +1,10 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import type { SearchBookResult } from '@/features/search/types';
 import { cn } from '@/lib/utils/cn';
+import { HighlightTitle } from '@/components/ui/HighlightTitle';
 import { Button } from '@/components/ui/Button';
 import { useState } from 'react';
 
@@ -35,7 +37,10 @@ export function SearchResultCard({
   };
 
   return (
-    <div
+    <motion.div
+      initial="rest"
+      animate="rest"
+      whileHover="hovered"
       className={cn(
         'bg-bg-light-2 rounded-2xl border border-border p-4 shadow-sm',
         'hover:shadow-lg hover:-translate-y-1 transition-all',
@@ -67,7 +72,7 @@ export function SearchResultCard({
       <div className="flex-1 flex flex-col justify-between">
         {/* Header Section */}
         <div>
-          <h3 className="font-serif text-lg font-bold text-text-dark line-clamp-2 mb-1">{item.title}</h3>
+          <h3 className="font-serif text-lg font-bold text-text-dark line-clamp-2 mb-1"><HighlightTitle title={item.title} /></h3>
           <p className="font-serif text-sm text-text-gray line-clamp-1 mb-1">{item.author}</p>
           <p className="text-xs text-text-light line-clamp-1 mb-3">{item.publisher}</p>
         </div>
@@ -103,6 +108,6 @@ export function SearchResultCard({
           </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

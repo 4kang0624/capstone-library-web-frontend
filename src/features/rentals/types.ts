@@ -3,9 +3,22 @@ import type { RentalStatus, RentalSyncStatus, DeliveryMethod } from '@/types/enu
 export interface Rental {
   id: number;
   book_id: number;
+  book_title?: string;
+  title?: string;
+  book?: {
+    title?: string;
+  };
   book_copy_id: number;
   lender_user_id: number;
+  lender_nickname?: string;
+  lender?: {
+    nickname?: string;
+  };
   borrower_user_id: number;
+  borrower_nickname?: string;
+  borrower?: {
+    nickname?: string;
+  };
   rental_status: RentalStatus;
   sync_status: RentalSyncStatus;
   deposit_wei: string;

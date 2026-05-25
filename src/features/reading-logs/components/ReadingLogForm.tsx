@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { BookOpen, Calendar, Star, AlertCircle } from 'lucide-react';
 import type { ReadingLog, ReadingLogCreateRequest, ReadingLogUpdateRequest } from '../types';
 import { ReadingStatus, ReadingStatusLabel } from '@/types/enums';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { Tabs } from '@/components/ui/Tabs';
 import { cn } from '@/lib/utils/cn';
 
 interface ReadingLogFormProps {
@@ -77,31 +77,11 @@ export function ReadingLogForm({
       {/* Reading Status */}
       <div>
         <label className="block text-sm font-medium text-text-dark mb-2">읽기 상태</label>
-        <div className="flex gap-1 bg-bg-light-4 p-1 rounded-xl w-fit relative">
-          {Object.entries(ReadingStatusLabel).map(([key, label]) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setStatus(key)}
-              className={cn(
-                'relative px-4 py-2 rounded-lg text-sm font-semibold transition-colors z-10',
-                status === key
-                  ? 'text-text-dark'
-                  : 'text-text-gray hover:text-text-dark',
-              )}
-            >
-              {status === key && (
-                <motion.div
-                  layoutId="status-highlight"
-                  initial={false}
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  className="absolute inset-0 bg-bg-light-1 rounded-lg shadow-sm -z-10"
-                />
-              )}
-              {label}
-            </button>
-          ))}
-        </div>
+        <Tabs
+          tabs={Object.entries(ReadingStatusLabel).map(([value, label]) => ({ value, label }))}
+          value={status}
+          onChange={setStatus}
+        />
       </div>
 
       {/* Dates */}

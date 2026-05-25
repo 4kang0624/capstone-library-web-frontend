@@ -66,7 +66,7 @@ export function AvailableCopiesSection({
             key={copy.id}
             onClick={() => onSelectCopy(copy)}
             className={cn(
-              'p-5 border-2 rounded-2xl cursor-pointer transition-all',
+              'p-5 border-1 rounded-2xl cursor-pointer transition-all',
               selectedCopy?.id === copy.id
                 ? 'border-primary-blue-3 bg-primary-blue-1/10 shadow-md shadow-primary-blue-3/10'
                 : 'border-border hover:border-primary-blue-2 hover:shadow-sm'

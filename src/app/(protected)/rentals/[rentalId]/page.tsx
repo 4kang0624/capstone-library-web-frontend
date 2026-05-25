@@ -92,14 +92,14 @@ export default function RentalDetailPage({ params }: { params: Promise<{ rentalI
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-editorial-ink">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-text-dark">
       <div className="flex items-center gap-3 mb-6">
-        <h1 className="text-3xl font-bold text-editorial-ink">대여 #{rental.id}</h1>
+        <h1 className="text-3xl font-bold text-text-dark">대여 #{rental.id}</h1>
         <RentalStatusBadge status={rental.rental_status} />
       </div>
 
-      <div className="bg-editorial-panel-soft rounded-2xl border border-editorial-line p-6 mb-4 shadow-[0_12px_30px_rgba(36,32,24,0.06)]">
-        <h2 className="text-lg font-bold text-editorial-ink mb-4">대여 정보</h2>
+      <div className="bg-bg-light-1 rounded-2xl border border-border p-6 mb-4 shadow-[0_12px_30px_rgba(36,32,24,0.06)]">
+        <h2 className="text-lg font-bold text-text-dark mb-4">대여 정보</h2>
         <dl className="grid grid-cols-2 gap-3 text-sm">
           <div>
             <dt className="text-text-gray">신청일</dt>
@@ -124,8 +124,8 @@ export default function RentalDetailPage({ params }: { params: Promise<{ rentalI
         </dl>
       </div>
 
-      <div className="bg-editorial-panel-soft rounded-2xl border border-editorial-line p-6 mb-6 shadow-[0_12px_30px_rgba(36,32,24,0.06)]">
-        <h2 className="text-lg font-bold text-editorial-ink mb-4">에스크로 정보</h2>
+      <div className="bg-bg-light-1 rounded-2xl border border-border p-6 mb-6 shadow-[0_12px_30px_rgba(36,32,24,0.06)]">
+        <h2 className="text-lg font-bold text-text-dark mb-4">에스크로 정보</h2>
         <dl className="grid grid-cols-2 gap-3 text-sm">
           <div>
             <dt className="text-text-gray">보증금</dt>
@@ -199,8 +199,8 @@ export default function RentalDetailPage({ params }: { params: Promise<{ rentalI
 
       <div className="flex flex-col gap-4">
         {isLender && !hasOnchainRental && rental.rental_status === RentalStatus.REQUESTED && (
-          <div className="bg-editorial-panel-soft rounded-2xl border border-editorial-line p-6 shadow-[0_12px_30px_rgba(36,32,24,0.06)]">
-            <h2 className="text-lg font-bold text-editorial-ink mb-4">대여 승인</h2>
+          <div className="bg-bg-light-1 rounded-2xl border border-border p-6 shadow-[0_12px_30px_rgba(36,32,24,0.06)]">
+            <h2 className="text-lg font-bold text-text-dark mb-4">대여 승인</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
               <Input
                 label="보증금"

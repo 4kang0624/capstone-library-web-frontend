@@ -600,10 +600,10 @@ export function RentalOnchainPanel({
   };
 
   return (
-    <div className="bg-editorial-panel-soft rounded-2xl border border-editorial-line p-6 mb-6 shadow-[0_12px_30px_rgba(36,32,24,0.06)]">
+    <div className="bg-bg-light-1 rounded-2xl border border-border p-6 mb-6 shadow-[0_12px_30px_rgba(36,32,24,0.06)]">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between mb-5">
         <div>
-          <h2 className="text-lg font-bold text-editorial-ink">스마트 컨트랙트</h2>
+          <h2 className="text-lg font-bold text-text-dark">스마트 컨트랙트</h2>
           <p className="text-sm text-text-gray mt-1">
             Hardhat localhost의 BookRentalEscrow와 동기화합니다.
           </p>

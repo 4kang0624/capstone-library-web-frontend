@@ -21,7 +21,7 @@ export function Tabs({ tabs, value, onChange, className }: TabsProps) {
   return (
     <div
       className={cn(
-        'flex gap-1 bg-editorial-sage/10 border border-editorial-line p-1 rounded-xl w-fit relative',
+        'flex gap-1 p-1 bg-bg-light-4 rounded-xl w-fit relative',
         className,
       )}
     >
@@ -41,7 +41,7 @@ export function Tabs({ tabs, value, onChange, className }: TabsProps) {
               layoutId="tab-highlight"
               initial={false}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="absolute inset-0 bg-editorial-panel-soft rounded-lg shadow-sm -z-10"
+              className="absolute inset-0 bg-bg-light-1 rounded-lg shadow-sm -z-10"
             />
           )}
           {tab.label}
@@ -49,7 +49,7 @@ export function Tabs({ tabs, value, onChange, className }: TabsProps) {
             <span
               className={cn(
                 'ml-1.5 text-xs px-1.5 py-0.5 rounded-full',
-                value === tab.value ? 'bg-editorial-ink text-editorial-paper' : 'bg-editorial-line text-editorial-muted',
+                value === tab.value ? 'bg-bg-light-5 text-text-dark' : 'bg-bg-light-2 text-text-gray',
               )}
             >
               {tab.count}

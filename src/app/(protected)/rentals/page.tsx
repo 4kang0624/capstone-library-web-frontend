@@ -14,7 +14,9 @@ import { RentalStatus, RentalStatusLabel, DeliveryMethod, DeliveryMethodLabel } 
 import { formatDate, formatRelativeDate } from '@/lib/format/date';
 import type { Rental } from '@/features/rentals/types';
 import { useAuth } from '@/hooks/useAuth';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils/cn';
+import { HighlightTitle } from '@/components/ui/HighlightTitle';
 
 const STATUS_BORDER: Record<RentalStatus, string> = {
   [RentalStatus.REQUESTED]: 'border-l-info',
@@ -41,15 +43,26 @@ function getDueDateInfo(dueDate?: string, status?: RentalStatus) {
   return null;
 }
 
+function getRentalBookTitle(rental: Rental) {
+  return rental.book_title?.trim() || rental.title?.trim() || rental.book?.title?.trim() || '제목 없음';
+}
+
+function getRentalBorrowerNickname(rental: Rental) {
+  return rental.borrower_nickname?.trim() || rental.borrower?.nickname?.trim() || '대여자 정보 없음';
+}
+
 function RentalCard({ rental, userId }: { rental: Rental; userId?: number }) {
   const isBorrower = rental.borrower_user_id === userId;
   const dueDateInfo = getDueDateInfo(rental.due_date, rental.rental_status);
 
   return (
     <Link href={ROUTES.RENTAL_DETAIL(rental.id)}>
-      <div
+      <motion.div
+        initial="rest"
+        animate="rest"
+        whileHover="hovered"
         className={cn(
-          'bg-bg-light-2 rounded-2xl border border-border border-l-4 px-5 py-4 shadow-[0_12px_30px_rgba(36,32,24,0.06)] hover:shadow-[0_16px_38px_rgba(36,32,24,0.1)] hover:-translate-y-0.5 transition-all group',
+          'bg-bg-light-2 rounded-2xl border border-border border-l-4 px-5 py-4 shadow-[0_12px_30px_rgba(36,32,24,0.06)] hover:shadow-[0_16px_38px_rgba(36,32,24,0.1)] hover:-translate-y-0.5 transition-all',
           STATUS_BORDER[rental.rental_status] ?? 'border-l-border',
         )}
       >
@@ -76,9 +89,9 @@ function RentalCard({ rental, userId }: { rental: Rental; userId?: number }) {
             </div>
 
             {/* Book ref */}
-            <p className="font-bold text-text-dark text-[15px] mb-2 group-hover:text-orange transition-colors">
-              도서 #{rental.book_id}
-              <span className="text-xs font-normal text-text-gray ml-1.5">복사본 #{rental.book_copy_id}</span>
+            <p className="font-bold text-text-dark text-[15px] mb-2">
+              <HighlightTitle title={getRentalBookTitle(rental)} />
+              <span className="text-xs font-normal text-text-gray ml-1.5">{getRentalBorrowerNickname(rental)}</span>
             </p>
 
             {/* Meta row */}
@@ -122,7 +135,7 @@ function RentalCard({ rental, userId }: { rental: Rental; userId?: number }) {
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     </Link>
   );
 }
@@ -221,7 +234,7 @@ export default function RentalsPage() {
         </div>
       )}
 
-      <Tabs tabs={tabs} value={tab} onChange={handleTabChange} className="mb-5" />
+      <Tabs tabs={tabs} value={tab} onChange={handleTabChange} className="mb-5 bg-bg-light-5" />
 
       {/* Status filter chips */}
       <div className="flex flex-wrap gap-2 mb-4">

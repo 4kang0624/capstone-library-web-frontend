@@ -15,3 +15,7 @@ export interface WishlistCreateRequest {
   book_id: number;
   memo?: string;
 }
+
+export interface WishlistUpdateRequest {
+  memo?: string;
+}

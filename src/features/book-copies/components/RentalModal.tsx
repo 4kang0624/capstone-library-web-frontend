@@ -140,7 +140,7 @@ export function RentalModal({
           <div className="flex items-center gap-2">
             <div className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${step === 1 ? 'bg-primary-blue-3 text-white' : 'bg-primary-blue-3 text-white'}`}>1</div>
             <div className="flex-1 h-0.5 bg-border" />
-            <div className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${step === 2 ? 'bg-primary-blue-3 text-white' : 'bg-border text-text-gray'}`}>2</div>
+            <div className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${step === 2 ? 'bg-primary-blue-3 text-white' : 'bg-border-light text-text-gray'}`}>2</div>
           </div>
 
           {step === 1 && (
