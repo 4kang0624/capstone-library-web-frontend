@@ -39,7 +39,7 @@ export default function ProfilePage() {
       <PageHeader title="프로필" description="계정 정보를 관리하세요" />
 
       {/* Profile */}
-      <div className="bg-white rounded-2xl border border-border p-6 mb-4">
+      <div className="bg-bg-light-1 rounded-2xl border border-border-light p-6 mb-4">
         <h2 className="text-lg font-bold text-text-dark mb-4">기본 정보</h2>
         <form onSubmit={profileForm.handleSubmit((v) => updateProfile(v))} className="flex flex-col gap-4">
           <Input label="이메일" value={user?.email ?? ''} disabled />
@@ -53,7 +53,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Wallet */}
-      <div className="bg-white rounded-2xl border border-border p-6 mb-4">
+      <div className="bg-bg-light-1 rounded-2xl border border-border-light p-6 mb-4">
         <h2 className="text-lg font-bold text-text-dark mb-4">Web3 지갑</h2>
         {isConnected && account ? (
           <div className="flex items-center justify-between">
@@ -72,7 +72,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Password */}
-      <div className="bg-white rounded-2xl border border-border p-6">
+      <div className="bg-bg-light-1 rounded-2xl border border-border-light p-6">
         <h2 className="text-lg font-bold text-text-dark mb-4">비밀번호 변경</h2>
         <form
           onSubmit={pwForm.handleSubmit((v) => updatePassword(v))}
