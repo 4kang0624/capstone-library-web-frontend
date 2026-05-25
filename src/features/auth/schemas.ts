@@ -6,9 +6,13 @@ export const loginSchema = z.object({
 });
 
 export const signupSchema = z.object({
+  nickname: z.string().min(1, '닉네임을 입력하세요').max(100),
   email: z.string().email('올바른 이메일을 입력하세요'),
   password: z.string().min(8, '비밀번호는 8자 이상이어야 합니다'),
-  nickname: z.string().min(1, '닉네임을 입력하세요').max(100),
+  confirm_password: z.string().min(1, '비밀번호 확인을 입력하세요'),
+}).refine((data) => data.password === data.confirm_password, {
+  message: '비밀번호가 일치하지 않습니다.',
+  path: ['confirm_password'],
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;

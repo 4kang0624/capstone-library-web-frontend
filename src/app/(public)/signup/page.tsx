@@ -25,7 +25,7 @@ export default function SignupPage() {
           <h2 className="mt-4 text-2xl font-bold text-text-dark">회원가입</h2>
           <p className="mt-2 text-text-gray">BookChain에서 새로운 독서 경험을 시작하세요</p>
         </div>
-        <div className="bg-bg-light-1 rounded-2xl border border-border-light p-8">
+        <div className="bg-bg-light-2 rounded-2xl border border-border-light p-8">
           <SignupForm />
         </div>
       </div>
