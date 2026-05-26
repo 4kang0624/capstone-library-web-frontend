@@ -45,6 +45,11 @@ export const useUpdateEscrowDbStatusMutation = () => {
       qc.setQueryData(QUERY_KEYS.ADMIN_ESCROW(variables.rentalId), data);
       qc.setQueryData(QUERY_KEYS.RENTAL(variables.rentalId), data);
       qc.invalidateQueries({ queryKey: QUERY_KEYS.ADMIN_ESCROWS });
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.MY_RENTALS });
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.MY_LENDINGS });
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.MY_BOOK_COPIES });
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.BOOK_COPIES });
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.RENTABLE_COPIES });
     },
   });
 };
