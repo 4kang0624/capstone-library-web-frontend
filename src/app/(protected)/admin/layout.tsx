@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { LoadingState } from '@/components/common/LoadingState';
 import { ROUTES } from '@/constants/routes';
-import { AdminNav } from '@/components/ui';
+import { AdminNav } from '@/components/layout';
 import { useAuth } from '@/hooks/useAuth';
 import { UserRole } from '@/types/enums';
 
