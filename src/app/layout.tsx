@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BookChain - Web3 도서 대여 플랫폼",
+  title: "Shelfie - Web3 도서 대여 플랫폼",
   description: "블록체인 기술로 안전하게 보호되는 P2P 도서 대여 플랫폼",
 };
 

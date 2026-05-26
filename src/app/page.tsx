@@ -89,7 +89,7 @@ export default function HomePage() {
         {/* Features */}
         <section className="py-20 bg-bg-light-1">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-4xl font-bold text-center mb-4 text-text-dark">왜 BookChain인가요?</h2>
+            <h2 className="text-4xl font-bold text-center mb-4 text-text-dark">왜 Shelfie인가요?</h2>
             <p className="text-center text-text-medium text-lg mb-16">안전하고 편리한 도서 대여의 모든 것</p>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <FeatureCard

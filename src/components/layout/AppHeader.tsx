@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Book, Search, FileText, Heart, User, Wallet, LogOut, Menu, X, ShieldCheck } from 'lucide-react';
+import { ShelfieLogoColor } from '@/assets';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/hooks/useAuth';
 import { useWeb3Context } from '@/providers/Web3Provider';
@@ -37,11 +38,9 @@ export function AppHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href={ROUTES.HOME} className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-primary-blue-3 rounded-xl flex items-center justify-center shadow-lg shadow-primary-blue-3/20 group-hover:shadow-primary-blue-3/40 transition-all">
-              <Book className="w-6 h-6 text-white" />
-            </div>
-            <span className="font-extrabold font-serif text-xl text-text-dark">BookChain</span>
+          <Link href={ROUTES.HOME} className="flex items-center gap-1 group">
+            <ShelfieLogoColor className="w-9 h-9" />
+            <span className="font-extrabold font-serif text-xl text-text-dark">Shelfie</span>
           </Link>
 
           {/* Desktop Nav */}
