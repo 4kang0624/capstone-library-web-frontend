@@ -49,7 +49,7 @@ export function RentableBookList() {
               을(를) 대여하시겠습니까?
             </p>
             <input
-              className="w-full border border-border rounded-xl px-4 py-3 text-text-dark focus:border-primary outline-none placeholder:text-text-light"
+              className="w-full border border-border rounded-xl bg-bg-light-2 px-4 py-3 text-text-dark focus:border-primary outline-none placeholder:text-text-light"
               placeholder="배송 주소를 입력하세요"
               value={shipping}
               onChange={(e) => setShipping(e.target.value)}

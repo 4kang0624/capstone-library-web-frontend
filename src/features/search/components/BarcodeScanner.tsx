@@ -195,7 +195,7 @@ export function BarcodeScanner({ open, onClose, onScan }: BarcodeScannerProps) {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-40">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4">
+      <div className="bg-bg-light-1 rounded-2xl shadow-2xl max-w-md w-full mx-4">
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-border">
           <h2 className="font-bold text-lg text-text-dark">바코드 스캔</h2>

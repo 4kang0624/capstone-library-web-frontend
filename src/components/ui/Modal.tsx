@@ -34,7 +34,7 @@ export function Modal({ open, onClose, title, children, maxWidth = 'md', classNa
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
       <div
         className={cn(
-          'relative bg-white rounded-2xl shadow-2xl w-full animate-in fade-in zoom-in-95 duration-200',
+          "relative bg-bg-light-1 rounded-2xl shadow-2xl w-full animate-in fade-in zoom-in-95 duration-200 [&_input:not([type='checkbox']):not([type='file'])]:bg-bg-light-2 [&_select]:bg-bg-light-2 [&_textarea]:bg-bg-light-2",
           maxWidthClasses[maxWidth],
           className,
         )}
@@ -44,7 +44,7 @@ export function Modal({ open, onClose, title, children, maxWidth = 'md', classNa
             <h2 className="text-xl font-bold text-text-dark">{title}</h2>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-bg-light-1 text-text-gray transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-bg-light-2 text-text-gray transition-colors"
             >
               <X className="w-5 h-5" />
             </button>

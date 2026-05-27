@@ -34,8 +34,8 @@ export function AppHeader() {
   };
 
   return (
-    <header className="border-b border-background-bright sticky top-0 z-50 backdrop-blur-lg bg-bg-light-2">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="border-b border-border-dark sticky top-0 z-50 backdrop-blur-lg bg-bg-light-2">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href={ROUTES.HOME} className="flex items-center gap-1 group">

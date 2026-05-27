@@ -50,7 +50,7 @@ export function BookCopyForm({ initialValues, onSubmit, loading, submitLabel = '
         <label className="text-sm font-semibold text-text-medium block mb-1.5">도서 상태</label>
         <select
           {...register('condition_status')}
-          className="w-full border border-border rounded-xl px-4 py-3 text-text-dark focus:border-primary outline-none"
+          className="w-full border border-border rounded-xl bg-bg-light-2 px-4 py-3 text-text-dark focus:border-primary outline-none"
         >
           {Object.values(BookCopyConditionStatus).map((v) => (
             <option key={v} value={v}>{conditionLabels[v]}</option>

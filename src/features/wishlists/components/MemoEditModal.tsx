@@ -48,7 +48,7 @@ export function MemoEditModal({ open, onClose, onSave, initialMemo = '', bookTit
             value={memo}
             onChange={(e) => setMemo(e.target.value)}
             placeholder="이 책에 대한 생각이나 읽을 계획을 작성하세요&#10;예: 추천받은 책, 꼭 읽고 싶은 이유 등"
-            className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue-3 resize-none bg-bg-light"
+            className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue-3 resize-none bg-bg-light-2"
             rows={5}
             maxLength={500}
           />
